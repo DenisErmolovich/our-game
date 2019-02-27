@@ -1,13 +1,37 @@
-#IDEA
+# IDEA
 .idea
 .idea/*
 *.iws
 *.iml
 *.ipr
 
-#Gradle
+# Gradle
 .gradle
 /build/
 gradle-app.setting
 !gradle-wrapper.jar
 .gradletasknamecache
+
+# core-ui
+/core-ui/dist
+/core-ui/tmp
+/core-ui/out-tsc
+/core-ui/node_modules
+/core-ui/.sass-cache
+/core-ui/connect.lock
+/core-ui/coverage
+/core-ui/libpeerconnection.log
+/core-ui/typings
+
+# profiling files
+chrome-profiler-events.json
+speed-measure-plugin.json
+
+# misc
+npm-debug.log
+yarn-error.log
+testem.log
+
+# System Files
+.DS_Store
+Thumbs.db
