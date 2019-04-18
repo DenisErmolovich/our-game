@@ -7,6 +7,7 @@ import org.springframework.web.reactive.function.server.*;
 
 @Configuration
 public class GreetingRouter {
+
     @Bean
     public RouterFunction<ServerResponse> route(GreetingHandler greetingHandler) {
         return RouterFunctions.route(
