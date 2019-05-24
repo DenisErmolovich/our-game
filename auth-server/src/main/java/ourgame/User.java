@@ -1,16 +1,19 @@
 package ourgame;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NonNull;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 
 import java.util.Set;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
-    @NonNull
+    @Id
+    private String id;
     private String login;
-    @NonNull
     private String password;
-    @NonNull
     private Set<Role> roles;
 }

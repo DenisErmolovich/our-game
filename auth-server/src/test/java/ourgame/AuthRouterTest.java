@@ -1,4 +1,4 @@
-package hello;
+package ourgame;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,14 +12,14 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
-public class GreetingRouterTest {
+public class AuthRouterTest {
     @Autowired
     private WebTestClient webTestClient;
 
     @Test
     public void testHello() {
         webTestClient
-                .get().uri("/hello")
+                .get().uri("/ourgame")
                 .accept(MediaType.TEXT_PLAIN)
                 .exchange()
                 .expectStatus().isOk()

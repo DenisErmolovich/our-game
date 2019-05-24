@@ -1,11 +1,9 @@
 package ourgame;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public class UserRepository {
-    public User getUserByLogin(String login) {
-        Role[] roles = {Role.ADMIN, Role.PLAYER};
-        return new User(login, "password", Arrays.stream(roles).collect(Collectors.toSet()));
-    }
+import java.util.Optional;
+
+public interface UserRepository extends MongoRepository<User, String> {
+    Optional<User> getUserByLogin(String login);
 }
