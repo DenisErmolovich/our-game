@@ -1,4 +1,4 @@
-package ourgame;
+package ourgame.routes;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +7,7 @@ import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import ourgame.handlers.AuthHandler;
 
 @Configuration
 public class AuthRouter {
@@ -17,7 +18,7 @@ public class AuthRouter {
                 RequestPredicates
                         .POST("/auth")
                         .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
-                authHandler::hello
+                authHandler::getToken
         );
     }
 }

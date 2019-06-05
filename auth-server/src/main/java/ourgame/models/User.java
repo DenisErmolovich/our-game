@@ -1,4 +1,4 @@
-package ourgame;
+package ourgame.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
