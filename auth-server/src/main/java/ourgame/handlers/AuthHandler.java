@@ -10,25 +10,19 @@ import ourgame.models.User;
 import ourgame.repositories.UserRepository;
 import reactor.core.publisher.Mono;
 
-import javax.validation.Validator;
-
 @Component
 public class AuthHandler {
     private UserRepository userRepository;
-    private Validator validator;
 
-    public AuthHandler(UserRepository userRepository, Validator validator) {
+    public AuthHandler(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.validator = validator;
     }
 
     public Mono<ServerResponse> getToken(ServerRequest request) {
         Mono<AuthResponse> authResponse = request
                 .bodyToMono(AuthRequest.class)
                 .map(authRequest -> {
-                    if (!validator.validate(authRequest).isEmpty()) {
-                        throw new IllegalArgumentException(validator.validate(authRequest).toString());
-                    }
+                    authRequest.validate();
                     User user = userRepository.getUserByLogin(authRequest.getLogin()).get();
                     return new AuthResponse().setToken(user.getPassword());
                 });
