@@ -1,26 +1,16 @@
 package ourgame.dtos;
 
 import lombok.Data;
-import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.validation.Validator;
+import ourgame.validators.AuthRequestValidator;
 
 @Data
-public class AuthRequest {
+public class AuthRequest implements SelfValidatable {
     private String login;
     private String password;
 
-    public void validate() {
-        List<String> errors = new ArrayList<>();
-        if (StringUtils.isEmpty(login)) {
-            errors.add("Login can't be empty!");
-        }
-        if (StringUtils.isEmpty(password)) {
-            errors.add("Password can't be empty!");
-        }
-        if (!errors.isEmpty()) {
-            throw new IllegalArgumentException(String.join("; ", errors));
-        }
+    @Override
+    public Validator getValidator() {
+        return new AuthRequestValidator();
     }
 }
