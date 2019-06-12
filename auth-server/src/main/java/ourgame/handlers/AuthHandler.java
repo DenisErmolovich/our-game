@@ -12,20 +12,22 @@ import ourgame.dtos.AuthRequest;
 import ourgame.dtos.AuthResponse;
 import ourgame.models.User;
 import ourgame.repositories.UserRepository;
+import ourgame.security.JwtUtil;
 import ourgame.security.PasswordEncoder;
 import reactor.core.publisher.Mono;
 
 @Component
 public class AuthHandler {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthHandler.class);
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private JwtUtil jwtUtil;
 
-    public AuthHandler(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthHandler(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     public Mono<ServerResponse> getToken(ServerRequest request) {
@@ -39,7 +41,7 @@ public class AuthHandler {
                         LOGGER.error("Unsuccessful attempt of authentication for user: {}", authRequest.getLogin());
                         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid login or password.");
                     }
-                    return new AuthResponse().setToken(user.getPassword());
+                    return new AuthResponse().setToken(jwtUtil.generateToken(user));
                 });
         return ServerResponse
                 .ok()
