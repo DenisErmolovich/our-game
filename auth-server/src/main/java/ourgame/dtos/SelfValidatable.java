@@ -1,5 +1,6 @@
 package ourgame.dtos;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
@@ -22,6 +23,7 @@ public interface SelfValidatable {
                     .stream()
                     .map(ObjectError::getDefaultMessage)
                     .collect(Collectors.toList());
+            LoggerFactory.getLogger(this.getClass()).error("Request validation problems: {}", errorMessages);
             throw new ServerWebInputException(String.join("; ", errorMessages));
         }
     }
