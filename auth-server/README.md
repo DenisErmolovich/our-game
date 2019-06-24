@@ -1,7 +1,7 @@
 #auth-server
 
 ##Description
-Authentication micro service.
+Authentication micro service.  
 Need started auth-db
 
 ##Launch
