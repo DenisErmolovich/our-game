@@ -6,6 +6,7 @@
 *.ipr
 
 # Gradle
+*/out/
 .gradle
 /build/
 gradle-app.setting
