@@ -1,0 +1,11 @@
+subdomain-env: localhost
+#static-root: /static/app1
+
+api:
+  - context-path: /api/auth
+    upstream-name: auth
+    upstream-url: host.docker.internal:8090
+    locations:
+      - url: /token
+        security: none
+#        roles: ['TEST_ROLE']

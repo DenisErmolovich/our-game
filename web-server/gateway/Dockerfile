@@ -8,4 +8,4 @@ EXPOSE 8080
 
 COPY . /demo
 
-ENTRYPOINT ["/demo/docker-entrypoint.sh"]
+ENTRYPOINT ["sh", "/demo/docker-entrypoint.sh"]
