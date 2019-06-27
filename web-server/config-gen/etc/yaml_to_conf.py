@@ -41,32 +41,34 @@ def parse_subdomains_config():
         subdomain = {'url': subdomain_url, 'static_root': static_root, 'locations': subdomain_locations}
 
         apis = subdomain_config.get('api')
-        for api in apis:
-            context_path = api.get('context-path', '/')
 
-            # api upstream
-            upstream_url = api.get('upstream-url')
-            upstream_name = api.get('upstream-name')
-            if not upstream_url:
-                raise Exception('{} should be specified in container'.format(filename))
+        if apis:
+            for api in apis:
+                context_path = api.get('context-path', '/')
 
-            upstream = {'name': upstream_name, 'url': upstream_url}
+                # api upstream
+                upstream_url = api.get('upstream-url')
+                upstream_name = api.get('upstream-name')
+                if not upstream_url:
+                    raise Exception('{} should be specified in container'.format(filename))
 
-            if not any(upstream['name'] == upstream_name for upstream in all_upstreams):
-                all_upstreams.append(upstream)
+                upstream = {'name': upstream_name, 'url': upstream_url}
 
-            # api locations
-            locations = api.get('locations')
-            if not locations:
-                raise Exception('{}: Locations should be specified in api section'.format(filename))
+                if not any(upstream['name'] == upstream_name for upstream in all_upstreams):
+                    all_upstreams.append(upstream)
 
-            for location in locations:
-                location['regex'] = api_location_regex(context_path, location, filename)
-                location['upstream'] = upstream
-                if location.get('security') == NONE:
-                    location['nosecurity'] = True
+                # api locations
+                locations = api.get('locations')
+                if not locations:
+                    raise Exception('{}: Locations should be specified in api section'.format(filename))
 
-                subdomain_locations.append(location)
+                for location in locations:
+                    location['regex'] = api_location_regex(context_path, location, filename)
+                    location['upstream'] = upstream
+                    if location.get('security') == NONE:
+                        location['nosecurity'] = True
+
+                    subdomain_locations.append(location)
 
         all_subdomains.append(subdomain)
 

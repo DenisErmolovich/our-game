@@ -1,5 +1,5 @@
 subdomain-env: localhost
-#static-root: /static/app1
+static-root: /static/core-ui
 
 api:
   - context-path: /api/auth
@@ -8,4 +8,5 @@ api:
     locations:
       - url: /token
         security: none
-#        roles: ['TEST_ROLE']
+      - url: /test
+        roles: ['ADMIN']

@@ -1,11 +1,12 @@
 FROM openresty/openresty:alpine-fat
 
-WORKDIR /demo
+WORKDIR /gateway
 
 RUN /usr/local/openresty/luajit/bin/luarocks install lua-resty-jwt
 
 EXPOSE 8080
 
-COPY . /demo
+COPY /web-server/gateway .
+COPY /core-ui/dist/core-ui /static/core-ui
 
-ENTRYPOINT ["sh", "/demo/docker-entrypoint.sh"]
+ENTRYPOINT ["sh", "/gateway/docker-entrypoint.sh"]

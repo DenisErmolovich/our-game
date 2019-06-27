@@ -42,7 +42,7 @@ function M.check(roles)
     -- validate any specific claims you need here
     -- https://github.com/SkyLothar/lua-resty-jwt#jwt-validators
     local claim_spec = {
-        exp = validators.is_not_expired(),
+        --exp = validators.is_not_expired(),
         authorities = function (token_roles)
             local check_roles = not roles == nil
             if check_roles and not has_any_role(token_roles, roles) then

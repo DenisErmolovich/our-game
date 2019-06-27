@@ -60,9 +60,11 @@ http {
             proxy_pass http://{{ location.upstream.name }}$1$is_args$args;
         }
         {% endfor %}
+        {% if subdomain.locations %}
         location ~* ^/api {
             return 404;
         }
+        {% endif %}
 
     }
     {% endfor %}
