@@ -16,7 +16,7 @@ public class AuthRouter {
     public RouterFunction<ServerResponse> route(AuthHandler authHandler) {
         return RouterFunctions.route(
                 RequestPredicates
-                        .POST("/auth")
+                        .POST("/token")
                         .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
                 authHandler::getToken
         );
