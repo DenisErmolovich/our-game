@@ -1,10 +1,10 @@
-#auth-db
+# auth-db
 
-##Description
+## Description
 MongoDB for auth-server
 
-##Build image
+## Build image
 `docker build -t auth-db .`
 
-##Run container
+## Run container
 `docker run -p 27017:27017 --name auth-db auth-db`

@@ -1,10 +1,10 @@
-#core-ui
+# core-ui
 Main application UI.  
 Is built as static files and put into web-server.
 
-##For local launch:
+## For local launch:
 `npm i`  
 `ng start`
 
-##Build
+## Build
 `npm run build`

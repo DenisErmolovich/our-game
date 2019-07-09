@@ -1,8 +1,8 @@
-#auth-server
+# auth-server
 
-##Description
+## Description
 Authentication micro service.  
 
-##Launch
+## Launch
 * Launch auth-db
 * Launch auth-server `.\gradlew bootRun`
