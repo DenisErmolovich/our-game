@@ -2,7 +2,7 @@
 
 ##Description
 Authentication micro service.  
-Need started auth-db
 
 ##Launch
-`.\gradlew bootRun`
+* Launch auth-db
+* Launch auth-server `.\gradlew bootRun`

@@ -43,8 +43,8 @@ function M.check(roles)
     -- https://github.com/SkyLothar/lua-resty-jwt#jwt-validators
     local claim_spec = {
         --exp = validators.is_not_expired(),
-        authorities = function (token_roles)
-            local check_roles = not roles == nil
+        roles = function (token_roles)
+            local check_roles = not (roles == nil)
             if check_roles and not has_any_role(token_roles, roles) then
                 error("Has no enough permissions")
             end
@@ -52,12 +52,23 @@ function M.check(roles)
     }
 
     -- make sure to set and put "env JWT_SECRET;" in nginx.conf
-    local jwt_obj = jwt:verify(os.getenv("JWT_SECRET"), token, claim_spec)
+    local public_key = [[
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAneUYpVhJLjTPD6YqUN2p
+yaRrNcbp3pTkPiMhjQtkXftIml6k3z80Yde0Htnw+VCEBai7YcBCG/fnuR94ixP4
+mXZilOkFHkwRm+RUHOTYjz3mTOhyM3Yhag7Z/L65PMFQ2cwaEysSMY0lupLXGJWq
+n76ojn5ANT8fS4pryc77ZgkAbWaxutaWAoqLVCVC0uj27HUKY4n3Q8Aow7+7gqpW
+eFikWFtIYE6JZdtLY7w7QA16pgNV+9AGGbKii+gQcuEE+Fx08Hopzo43T6F4gbjj
+COnB5uCNUdsEmCQcimRmjZYvH6nvQgOfGUYhuG8b/iK70859qKZFe7wM/gnAfVxE
+0QIDAQAB
+-----END PUBLIC KEY-----
+    ]]
+    local jwt_obj = jwt:verify(public_key, token, claim_spec)
     if not jwt_obj["verified"] then
         finish_request_with_error("Invalid token: ".. jwt_obj.reason)
     end
 
-    ngx.req.set_header("X-UserName", jwt_obj.payload.user_name)
+    ngx.req.set_header("X-UserName", jwt_obj.payload.login)
 end
 
 return M

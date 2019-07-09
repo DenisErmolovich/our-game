@@ -1,7 +1,6 @@
 package ourgame.handlers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -17,9 +16,8 @@ import ourgame.security.PasswordEncoder;
 import reactor.core.publisher.Mono;
 
 @Component
+@Slf4j
 public class AuthHandler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuthHandler.class);
-
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private JwtUtil jwtUtil;
@@ -38,7 +36,7 @@ public class AuthHandler {
                     User user = userRepository.getUserByLogin(authRequest.getLogin()).orElse(null);
                     if (null == user ||
                             !passwordEncoder.matches(authRequest.getPassword(), user.getSalt(), user.getPassword())) {
-                        LOGGER.error("Unsuccessful attempt of authentication for user: {}", authRequest.getLogin());
+                        log.error("Unsuccessful attempt of authentication for user: {}", authRequest.getLogin());
                         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid login or password.");
                     }
                     return new AuthResponse().setToken(jwtUtil.generateToken(user));

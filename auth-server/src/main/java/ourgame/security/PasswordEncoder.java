@@ -1,7 +1,6 @@
 package ourgame.security;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +12,8 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
 
 @Component
+@Slf4j
 public class PasswordEncoder {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(PasswordEncoder.class);
-
     @Value("${security.password.encoder.iterations}")
     private int iterations;
 
@@ -31,7 +28,7 @@ public class PasswordEncoder {
             byte[] res = key.getEncoded();
             return Base64.getEncoder().encodeToString(res);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            LOGGER.error("{}: {}", e.getMessage(), e.getStackTrace());
+            log.error("{}: {}", e.getMessage(), e.getStackTrace());
             throw new RuntimeException(e);
         }
     }
