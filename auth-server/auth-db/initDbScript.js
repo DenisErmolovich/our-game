@@ -1,3 +1,4 @@
+// ToDo: Think how protect this data
 db.createCollection('user');
 db.user.insert({
     login: 'denisermolovich@gmail.com',
