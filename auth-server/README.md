@@ -3,6 +3,10 @@
 ## Description
 Authentication micro service.  
 
-## Launch
+## Launch local
 * Launch auth-db
 * Launch auth-server `.\gradlew bootRun`
+
+## Docker
+* `docker build -t auth-server .`
+* `docker run -d --rm -p 8090:8090 --name auth-server auth-server`
