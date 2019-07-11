@@ -1,6 +1,5 @@
 # escape=`
 FROM python:3
-MAINTAINER denisermolovich@gmail.com
 
 WORKDIR /cg/etc/
 

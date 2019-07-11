@@ -1,6 +1,5 @@
 # escape=`
 FROM openresty/openresty:alpine-fat
-MAINTAINER denisermolovich@gmail.com
 
 WORKDIR /gateway
 
