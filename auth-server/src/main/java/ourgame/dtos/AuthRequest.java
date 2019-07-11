@@ -7,7 +7,7 @@ import ourgame.validators.AuthRequestValidator;
 @Data
 public class AuthRequest implements SelfValidatable {
     private String login;
-    private String password;
+    private char[] password;
 
     @Override
     public Validator getValidator() {
