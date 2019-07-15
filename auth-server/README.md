@@ -1,7 +1,10 @@
 # auth-server
 
 ## Description
-Authentication micro service.  
+Authentication micro service.
+
+## Build
+`.\gradlew bootJar`
 
 ## Launch local
 * Launch auth-db
