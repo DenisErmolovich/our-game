@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  auth-db:
+    build: ./auth-server/auth-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - auth-db-volume:/data/db
+      - auth-db-volume:/data/configdb
+  auth-server:
+    build: ./auth-server
+    ports:
+      - "8090:8090"
+  gateway:
+    build:
+      context: .
+      dockerfile: web-server/gateway/Dockerfile
+    ports:
+      - "8080:8080"
+volumes:
+  auth-db-volume:
