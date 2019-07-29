@@ -2,20 +2,26 @@ version: '3.7'
 services:
   auth-db:
     build: ./auth-server/auth-db
-    ports:
-      - "27017:27017"
     volumes:
       - auth-db-volume:/data/db
       - auth-db-volume:/data/configdb
+    networks:
+      - auth-server
   auth-server:
     build: ./auth-server
-    ports:
-      - "8090:8090"
+    networks:
+      - auth-server
+      - our-game
   gateway:
     build:
       context: .
       dockerfile: web-server/gateway/Dockerfile
     ports:
       - "8080:8080"
+    networks:
+      - our-game
 volumes:
   auth-db-volume:
+networks:
+  our-game:
+  auth-server:
