@@ -11,3 +11,4 @@ It's game for my friends and me.
 3. web-server
 
 ## Docker compose
+`docker-compose up -d --build`
