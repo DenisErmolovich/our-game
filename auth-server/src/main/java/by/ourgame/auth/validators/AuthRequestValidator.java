@@ -1,9 +1,9 @@
-package ourgame.validators;
+package by.ourgame.auth.validators;
 
+import by.ourgame.auth.dtos.AuthRequest;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ourgame.dtos.AuthRequest;
 
 public class AuthRequestValidator implements Validator {
 

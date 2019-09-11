@@ -1,4 +1,4 @@
-package ourgame.dtos;
+package by.ourgame.auth.dtos;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BeanPropertyBindingResult;

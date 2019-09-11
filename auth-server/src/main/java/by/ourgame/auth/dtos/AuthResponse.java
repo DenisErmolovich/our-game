@@ -1,4 +1,4 @@
-package ourgame.dtos;
+package by.ourgame.auth.dtos;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

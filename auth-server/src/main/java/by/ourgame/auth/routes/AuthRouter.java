@@ -1,5 +1,6 @@
-package ourgame.routes;
+package by.ourgame.auth.routes;
 
+import by.ourgame.auth.handlers.AuthHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -7,7 +8,6 @@ import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import ourgame.handlers.AuthHandler;
 
 @Configuration
 public class AuthRouter {

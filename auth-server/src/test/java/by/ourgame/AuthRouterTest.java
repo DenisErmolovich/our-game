@@ -1,4 +1,4 @@
-package ourgame;
+package by.ourgame;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

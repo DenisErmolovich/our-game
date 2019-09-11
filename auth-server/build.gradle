@@ -27,7 +27,7 @@ idea {
 }
 
 bootJar {
-    baseName = 'web-server'
+    baseName = 'auth-server'
     version = '1.0.0'
 }
 

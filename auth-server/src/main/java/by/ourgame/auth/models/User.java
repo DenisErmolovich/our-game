@@ -1,4 +1,4 @@
-package ourgame.models;
+package by.ourgame.auth.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

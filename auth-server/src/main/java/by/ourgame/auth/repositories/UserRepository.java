@@ -1,7 +1,7 @@
-package ourgame.repositories;
+package by.ourgame.auth.repositories;
 
+import by.ourgame.auth.models.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ourgame.models.User;
 
 import java.util.Optional;
 

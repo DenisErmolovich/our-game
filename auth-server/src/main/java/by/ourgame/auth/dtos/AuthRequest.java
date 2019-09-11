@@ -1,8 +1,8 @@
-package ourgame.dtos;
+package by.ourgame.auth.dtos;
 
+import by.ourgame.auth.validators.AuthRequestValidator;
 import lombok.Data;
 import org.springframework.validation.Validator;
-import ourgame.validators.AuthRequestValidator;
 
 @Data
 public class AuthRequest implements SelfValidatable {

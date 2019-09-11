@@ -1,5 +1,11 @@
-package ourgame.handlers;
+package by.ourgame.auth.handlers;
 
+import by.ourgame.auth.dtos.AuthRequest;
+import by.ourgame.auth.dtos.AuthResponse;
+import by.ourgame.auth.models.User;
+import by.ourgame.auth.repositories.UserRepository;
+import by.ourgame.auth.security.JwtUtil;
+import by.ourgame.auth.security.PasswordEncoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -7,12 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ResponseStatusException;
-import ourgame.dtos.AuthRequest;
-import ourgame.dtos.AuthResponse;
-import ourgame.models.User;
-import ourgame.repositories.UserRepository;
-import ourgame.security.JwtUtil;
-import ourgame.security.PasswordEncoder;
 import reactor.core.publisher.Mono;
 
 @Component
