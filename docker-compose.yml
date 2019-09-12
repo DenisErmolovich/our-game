@@ -21,6 +21,11 @@ services:
       - game-db-volume:/data/configdb
     networks:
       - game-server
+  game-server:
+    build: ./game-server
+    networks:
+      - game-server
+      - our-game
   # gateway
   gateway:
     build:
