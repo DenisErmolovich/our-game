@@ -1,5 +1,6 @@
 version: '3.7'
 services:
+  # auth-server
   auth-db:
     build: ./auth-server/auth-db
     volumes:
@@ -12,6 +13,20 @@ services:
     networks:
       - auth-server
       - our-game
+  # game-server
+  game-db:
+    build: ./game-server/game-db
+    volumes:
+      - game-db-volume:/data/db
+      - game-db-volume:/data/configdb
+    networks:
+      - game-server
+  game-server:
+    build: ./game-server
+    networks:
+      - game-server
+      - our-game
+  # gateway
   gateway:
     build:
       context: .
@@ -22,6 +37,8 @@ services:
       - our-game
 volumes:
   auth-db-volume:
+  game-db-volume:
 networks:
   our-game:
   auth-server:
+  game-server:
