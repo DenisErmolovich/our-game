@@ -4,6 +4,7 @@ It's game for my friends and me.
 ## Build
 * core-ui
 * auth-server
+* game-server
 
 ## Launch manually
 1. auth-db in auth-server
