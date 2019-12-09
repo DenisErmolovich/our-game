@@ -20,7 +20,7 @@ export class GameService implements GameServiceInterface {
   public create(game: Game) {
     const games: Array<Game> = this.getAll();
     if (this.checkIsGameExist(game.id)) {
-      this.sendError(`Игра с Id ${game.id} уже существует`);
+      this.errorService.sendError(`Игра с Id ${game.id} уже существует`);
       return null;
     } else {
       games.push(game);
@@ -63,33 +63,33 @@ export class GameService implements GameServiceInterface {
           this.router.navigate(['game', game.id]);
         }
       },
-      () => this.sendError('Ошибка при загрузке файла конфигураций!')
+      () => this.errorService.sendError('Ошибка при загрузке файла конфигураций!')
     );
   }
 
   private isGameValid(game: Game): boolean {
     if (!game.rounds || game.rounds.length !== game.settings.rounds) {
-      this.sendError(`Неправильное колличство раундов в файле-конфигурации`);
+      this.errorService.sendError(`Неправильное колличство раундов в файле-конфигурации`);
       return false;
     }
     for (const round of game.rounds) {
       if (!round.topics || round.topics.length !== game.settings.topicsInRound) {
-        this.sendError(`Неправильное колличство тем в раунде ${round.id} у файла-конфигурации`);
+        this.errorService.sendError(`Неправильное колличство тем в раунде ${round.id} у файла-конфигурации`);
         return false;
       }
       for (const topic of round.topics) {
         if (!topic.questions || topic.questions.length !== game.settings.questionsInTopic) {
-          this.sendError(`Неправильное колличство вопросов в теме ${topic.id} у файла-конфигурации`);
+          this.errorService.sendError(`Неправильное колличство вопросов в теме ${topic.id} у файла-конфигурации`);
           return false;
         }
       }
     }
     if (!game.superRound || game.superRound.questions.length !== game.settings.superQuestions) {
-      this.sendError(`Неправильное колличство вопросов в супер раунде у файла-конфигурации`);
+      this.errorService.sendError(`Неправильное колличство вопросов в супер раунде у файла-конфигурации`);
       return false;
     }
     if (!game.settings.minPrice) {
-      this.sendError(`Не указана минимальная стоимость в настройках у файла-конфигурации`);
+      this.errorService.sendError(`Не указана минимальная стоимость в настройках у файла-конфигурации`);
       return false;
     }
 
@@ -103,12 +103,5 @@ export class GameService implements GameServiceInterface {
     } else {
       return false;
     }
-  }
-
-  private sendError(errorText: string): void {
-    const error = new ErrorBase();
-    error.description = errorText;
-    this.errorService.setData(error);
-    this.errorService.sendData();
   }
 }
