@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GameService} from '../../_services/data/local-storage/game.service';
 import {Router} from '@angular/router';
 
@@ -22,6 +22,10 @@ export class HomeComponent implements OnInit {
 
   public toGameList(): void {
     this.router.navigate(['game']);
+  }
+
+  private toLogin(): void {
+    this.router.navigate(['login']);
   }
 
 }

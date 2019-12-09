@@ -1,5 +1,10 @@
 @import "collors";
 
+.base-row {
+  min-height: 100vh;
+  background-color: $color-main;
+}
+
 .question {
   cursor: pointer;
   &:hover {

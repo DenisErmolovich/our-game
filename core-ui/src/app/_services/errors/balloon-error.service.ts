@@ -10,4 +10,12 @@ export class BalloonErrorService extends BaseComponentCommunication<ErrorBase> {
   constructor() {
     super();
   }
+
+  public sendError(errorText: string): void {
+    const error: ErrorBase = {
+      description: errorText
+    };
+    this.setData(error);
+    this.sendData();
+  }
 }
