@@ -6,9 +6,9 @@
 *.ipr
 
 # Gradle
-*/out/
+**/out/
 .gradle
-*/build/
+**/build/
 gradle-app.setting
 !gradle-wrapper.jar
 .gradletasknamecache
