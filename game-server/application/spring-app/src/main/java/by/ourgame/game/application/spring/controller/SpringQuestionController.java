@@ -6,6 +6,7 @@ import by.ourgame.game.usecase.question.DeleteQuestion;
 import by.ourgame.game.usecase.question.FindQuestion;
 import by.ourgame.game.usecase.question.SaveQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class SpringQuestionController extends QuestionController {
     }
 
     @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
     @Override
     public Question save(@RequestBody Question question) {
         return super.save(question);
@@ -40,6 +42,7 @@ public class SpringQuestionController extends QuestionController {
     }
 
     @DeleteMapping("/{id}")
+    @Override
     public void deleteById(@PathVariable String id) {
         super.deleteById(id);
     }
