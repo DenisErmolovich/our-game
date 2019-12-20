@@ -1,1 +1,13 @@
 rootProject.name = 'game-server'
+
+include 'domain'
+project(':domain').setBuildFileName('domain.gradle')
+
+include 'usecase'
+project(':usecase').setBuildFileName('usecase.gradle')
+
+include 'adapter'
+project(':adapter').setBuildFileName('adapter.gradle')
+
+include('application:spring-app')
+project(':application:spring-app').setBuildFileName('spring-app.gradle')
