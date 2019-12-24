@@ -1,10 +1,10 @@
 package by.ourgame.game.application.spring.controller;
 
-import by.ourgame.game.adapter.controller.QuestionController;
+import by.ourgame.game.adapter.controller.BaseController;
 import by.ourgame.game.domain.entity.Question;
 import by.ourgame.game.usecase.BaseDelete;
 import by.ourgame.game.usecase.BaseFind;
-import by.ourgame.game.usecase.question.Save;
+import by.ourgame.game.usecase.BaseSave;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/questions")
-public class SpringQuestionController extends QuestionController {
+public class SpringQuestionController extends BaseController<Question> {
 
     @Autowired
-    public SpringQuestionController(Save saveQuestion,
+    public SpringQuestionController(BaseSave<Question> saveQuestion,
                                     BaseFind<Question> findQuestion,
                                     BaseDelete<Question> deleteQuestion) {
         super(saveQuestion, findQuestion, deleteQuestion);

@@ -3,8 +3,8 @@ package by.ourgame.game.application.spring.config;
 import by.ourgame.game.domain.entity.Question;
 import by.ourgame.game.usecase.BaseDelete;
 import by.ourgame.game.usecase.BaseFind;
+import by.ourgame.game.usecase.BaseSave;
 import by.ourgame.game.usecase.port.BaseRepository;
-import by.ourgame.game.usecase.question.Save;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +14,8 @@ public class ContextConfig {
 
     @Bean
     @Autowired
-    public Save saveQuestion(BaseRepository<Question> questionRepository) {
-        return new Save(questionRepository);
+    public BaseSave<Question> saveQuestion(BaseRepository<Question> questionRepository) {
+        return new BaseSave<>(questionRepository);
     }
 
     @Bean
