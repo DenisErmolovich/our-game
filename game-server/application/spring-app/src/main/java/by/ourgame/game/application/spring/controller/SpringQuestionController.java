@@ -3,7 +3,7 @@ package by.ourgame.game.application.spring.controller;
 import by.ourgame.game.adapter.controller.QuestionController;
 import by.ourgame.game.domain.entity.Question;
 import by.ourgame.game.usecase.BaseDelete;
-import by.ourgame.game.usecase.question.Find;
+import by.ourgame.game.usecase.BaseFind;
 import by.ourgame.game.usecase.question.Save;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ public class SpringQuestionController extends QuestionController {
 
     @Autowired
     public SpringQuestionController(Save saveQuestion,
-                                    Find findQuestion,
+                                    BaseFind<Question> findQuestion,
                                     BaseDelete<Question> deleteQuestion) {
         super(saveQuestion, findQuestion, deleteQuestion);
     }

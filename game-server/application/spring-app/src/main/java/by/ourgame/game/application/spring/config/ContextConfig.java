@@ -2,8 +2,8 @@ package by.ourgame.game.application.spring.config;
 
 import by.ourgame.game.domain.entity.Question;
 import by.ourgame.game.usecase.BaseDelete;
+import by.ourgame.game.usecase.BaseFind;
 import by.ourgame.game.usecase.port.BaseRepository;
-import by.ourgame.game.usecase.question.Find;
 import by.ourgame.game.usecase.question.Save;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,8 +20,8 @@ public class ContextConfig {
 
     @Bean
     @Autowired
-    public Find findQuestion(BaseRepository<Question> questionRepository) {
-        return new Find(questionRepository);
+    public BaseFind<Question> findQuestion(BaseRepository<Question> questionRepository) {
+        return new BaseFind<>(questionRepository);
     }
 
     @Bean
