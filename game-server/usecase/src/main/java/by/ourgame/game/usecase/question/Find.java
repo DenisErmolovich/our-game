@@ -1,18 +1,19 @@
 package by.ourgame.game.usecase.question;
 
 import by.ourgame.game.domain.entity.Question;
-import by.ourgame.game.usecase.port.QuestionRepository;
+import by.ourgame.game.usecase.BaseUsecase;
+import by.ourgame.game.usecase.port.BaseRepository;
 
 import java.util.List;
 
-public class FindQuestion extends BaseQuestionUsecase {
+public class Find extends BaseUsecase<Question> {
 
-    public FindQuestion(QuestionRepository repository) {
+    public Find(BaseRepository<Question> repository) {
         super(repository);
     }
 
     public Question findById(String id) {
-        return repository.findQuestionById(id).get();
+        return repository.findById(id).get();
     }
 
     public List<Question> findAll() {
