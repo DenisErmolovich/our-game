@@ -1,7 +1,7 @@
 package by.ourgame.game.adapter.controller;
 
 import by.ourgame.game.domain.entity.Question;
-import by.ourgame.game.usecase.question.Delete;
+import by.ourgame.game.usecase.BaseDelete;
 import by.ourgame.game.usecase.question.Find;
 import by.ourgame.game.usecase.question.Save;
 
@@ -10,11 +10,11 @@ import java.util.List;
 public class QuestionController {
     private final Save saveQuestion;
     private final Find findQuestion;
-    private final Delete deleteQuestion;
+    private final BaseDelete<Question> deleteQuestion;
 
     public QuestionController(Save saveQuestion,
                               Find findQuestion,
-                              Delete deleteQuestion) {
+                              BaseDelete<Question> deleteQuestion) {
         this.saveQuestion = saveQuestion;
         this.findQuestion = findQuestion;
         this.deleteQuestion = deleteQuestion;
