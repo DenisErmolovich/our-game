@@ -4,9 +4,9 @@ import by.ourgame.game.usecase.port.BaseRepository;
 
 import java.util.List;
 
-public class BaseFind<T> extends BaseUsecase<T> {
+public class BaseFindUsecase<T> extends BaseUsecase<T> {
 
-    public BaseFind(BaseRepository<T> repository) {
+    public BaseFindUsecase(BaseRepository<T> repository) {
         super(repository);
     }
 

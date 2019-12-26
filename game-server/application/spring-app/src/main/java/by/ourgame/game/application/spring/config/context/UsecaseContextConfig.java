@@ -1,15 +1,15 @@
 package by.ourgame.game.application.spring.config.context;
 
-import by.ourgame.game.usecase.BaseDelete;
-import by.ourgame.game.usecase.BaseFind;
-import by.ourgame.game.usecase.BaseSave;
+import by.ourgame.game.usecase.BaseDeleteUsecase;
+import by.ourgame.game.usecase.BaseFindUsecase;
+import by.ourgame.game.usecase.BaseSaveUsecase;
 import by.ourgame.game.usecase.port.BaseRepository;
 
 public interface UsecaseContextConfig<T> {
 
-    BaseSave<T> save(BaseRepository<T> repository);
+    BaseSaveUsecase<T> saveUsecase(BaseRepository<T> repository);
 
-    BaseFind<T> find(BaseRepository<T> repository);
+    BaseFindUsecase<T> findUsecase(BaseRepository<T> repository);
 
-    BaseDelete<T> delete(BaseRepository<T> repository);
+    BaseDeleteUsecase<T> deleteUsecase(BaseRepository<T> repository);
 }

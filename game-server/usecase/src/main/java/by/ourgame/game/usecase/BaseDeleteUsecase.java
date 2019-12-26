@@ -2,9 +2,9 @@ package by.ourgame.game.usecase;
 
 import by.ourgame.game.usecase.port.BaseRepository;
 
-public class BaseDelete<T> extends BaseUsecase<T> {
+public class BaseDeleteUsecase<T> extends BaseUsecase<T> {
 
-    public BaseDelete(BaseRepository<T> repository) {
+    public BaseDeleteUsecase(BaseRepository<T> repository) {
         super(repository);
     }
 

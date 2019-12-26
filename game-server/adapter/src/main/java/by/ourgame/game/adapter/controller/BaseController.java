@@ -1,19 +1,19 @@
 package by.ourgame.game.adapter.controller;
 
-import by.ourgame.game.usecase.BaseDelete;
-import by.ourgame.game.usecase.BaseFind;
-import by.ourgame.game.usecase.BaseSave;
+import by.ourgame.game.usecase.BaseDeleteUsecase;
+import by.ourgame.game.usecase.BaseFindUsecase;
+import by.ourgame.game.usecase.BaseSaveUsecase;
 
 import java.util.List;
 
 public class BaseController<T> {
-    private final BaseSave<T> saveUsecase;
-    private final BaseFind<T> findUsecase;
-    private final BaseDelete<T> deleteUsecase;
+    private final BaseSaveUsecase<T> saveUsecase;
+    private final BaseFindUsecase<T> findUsecase;
+    private final BaseDeleteUsecase<T> deleteUsecase;
 
-    public BaseController(BaseSave<T> saveUsecase,
-                          BaseFind<T> findUsecase,
-                          BaseDelete<T> deleteUsecase) {
+    public BaseController(BaseSaveUsecase<T> saveUsecase,
+                          BaseFindUsecase<T> findUsecase,
+                          BaseDeleteUsecase<T> deleteUsecase) {
         this.saveUsecase = saveUsecase;
         this.findUsecase = findUsecase;
         this.deleteUsecase = deleteUsecase;

@@ -1,9 +1,9 @@
 package by.ourgame.game.application.spring.controller;
 
 import by.ourgame.game.adapter.controller.BaseController;
-import by.ourgame.game.usecase.BaseDelete;
-import by.ourgame.game.usecase.BaseFind;
-import by.ourgame.game.usecase.BaseSave;
+import by.ourgame.game.usecase.BaseDeleteUsecase;
+import by.ourgame.game.usecase.BaseFindUsecase;
+import by.ourgame.game.usecase.BaseSaveUsecase;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +11,10 @@ import java.util.List;
 
 public abstract class BaseSpringController<T> extends BaseController<T> {
 
-    public BaseSpringController(BaseSave<T> save,
-                                    BaseFind<T> find,
-                                    BaseDelete<T> delete) {
-        super(save, find, delete);
+    public BaseSpringController(BaseSaveUsecase<T> saveUsecase,
+                                BaseFindUsecase<T> findUsecase,
+                                BaseDeleteUsecase<T> deleteUsecase) {
+        super(saveUsecase, findUsecase, deleteUsecase);
     }
 
     @PostMapping
