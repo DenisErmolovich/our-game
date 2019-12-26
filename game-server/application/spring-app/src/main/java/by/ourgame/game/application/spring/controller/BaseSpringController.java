@@ -24,6 +24,12 @@ public abstract class BaseSpringController<T> extends BaseController<T> {
         return super.save(entity);
     }
 
+    @PutMapping
+    @Override
+    public T update(@RequestBody T entity) {
+        return super.update(entity);
+    }
+
     @GetMapping
     @Override
     public List<T> findAll() {

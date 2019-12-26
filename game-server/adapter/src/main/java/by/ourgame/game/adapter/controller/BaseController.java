@@ -23,6 +23,10 @@ public class BaseController<T> {
         return saveUsecase.save(entity);
     }
 
+    public T update(T entity) {
+        return saveUsecase.save(entity);
+    }
+
     public List<T> findAll() {
         return findUsecase.findAll();
     }
