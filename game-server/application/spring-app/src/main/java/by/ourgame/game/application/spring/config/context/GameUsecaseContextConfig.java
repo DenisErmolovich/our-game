@@ -1,6 +1,6 @@
 package by.ourgame.game.application.spring.config.context;
 
-import by.ourgame.game.domain.entity.Question;
+import by.ourgame.game.domain.entity.Game;
 import by.ourgame.game.usecase.BaseDeleteUsecase;
 import by.ourgame.game.usecase.BaseFindUsecase;
 import by.ourgame.game.usecase.BaseSaveUsecase;
@@ -10,26 +10,26 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class QuestionUsecaseContextConfig implements UsecaseContextConfig<Question> {
+public class GameUsecaseContextConfig implements UsecaseContextConfig<Game> {
 
-    @Bean("questionSaveUsecase")
+    @Bean("gameSaveUsecase")
     @Autowired
     @Override
-    public BaseSaveUsecase<Question> saveUsecase(BaseRepository<Question> repository) {
+    public BaseSaveUsecase<Game> saveUsecase(BaseRepository<Game> repository) {
         return new BaseSaveUsecase<>(repository);
     }
 
-    @Bean("questionFindUsecase")
+    @Bean("gameFindUsecase")
     @Autowired
     @Override
-    public BaseFindUsecase<Question> findUsecase(BaseRepository<Question> repository) {
+    public BaseFindUsecase<Game> findUsecase(BaseRepository<Game> repository) {
         return new BaseFindUsecase<>(repository);
     }
 
-    @Bean("questionDeleteUsecase")
+    @Bean("gameDeleteUsecase")
     @Autowired
     @Override
-    public BaseDeleteUsecase<Question> deleteUsecase(BaseRepository<Question> repository) {
+    public BaseDeleteUsecase<Game> deleteUsecase(BaseRepository<Game> repository) {
         return new BaseDeleteUsecase<>(repository);
     }
 }
