@@ -1,6 +1,7 @@
 dependencies {
     implementation(
             project(':domain'),
-            project(':usecase')
+            project(':usecase'),
+            "io.projectreactor:reactor-core:$reactorVersion"
     )
 }

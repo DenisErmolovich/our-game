@@ -6,8 +6,8 @@ import by.ourgame.game.usecase.BaseFindUsecase;
 import by.ourgame.game.usecase.BaseSaveUsecase;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public abstract class BaseSpringController<T> extends BaseController<T> {
 
@@ -20,31 +20,31 @@ public abstract class BaseSpringController<T> extends BaseController<T> {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     @Override
-    public T save(@RequestBody T entity) {
+    public Mono<T> save(@RequestBody T entity) {
         return super.save(entity);
     }
 
     @PutMapping
     @Override
-    public T update(@RequestBody T entity) {
+    public Mono<T> update(@RequestBody T entity) {
         return super.update(entity);
     }
 
     @GetMapping
     @Override
-    public List<T> findAll() {
+    public Flux<T> findAll() {
         return super.findAll();
     }
 
     @GetMapping("/{id}")
     @Override
-    public T findById(@PathVariable String id) {
+    public Mono<T> findById(@PathVariable String id) {
         return super.findById(id);
     }
 
     @DeleteMapping("/{id}")
     @Override
-    public void deleteById(@PathVariable String id) {
-        super.deleteById(id);
+    public Mono<Void> deleteById(@PathVariable String id) {
+        return super.deleteById(id);
     }
 }

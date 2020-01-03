@@ -3,6 +3,10 @@ plugins {
     id 'org.springframework.boot' version '2.2.2.RELEASE' apply false
 }
 
+ext {
+    reactorVersion = '3.2.12.RELEASE'
+}
+
 subprojects {
     apply plugin: 'java'
 
