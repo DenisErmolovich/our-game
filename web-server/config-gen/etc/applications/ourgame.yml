@@ -8,5 +8,11 @@ api:
     locations:
       - url: /token
         security: none
-      - url: /test
-        roles: ['ADMIN']
+  - context-path: /api/game
+    upstream-name: game
+    upstream-url: game-server:8091
+    locations:
+      - url: /games
+        roles: ['PLAYER', 'ADMIN']
+      - url: /games/{id}
+        roles: ['PLAYER', 'ADMIN']
