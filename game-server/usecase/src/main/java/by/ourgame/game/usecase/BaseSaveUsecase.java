@@ -1,6 +1,7 @@
 package by.ourgame.game.usecase;
 
 import by.ourgame.game.usecase.port.BaseRepository;
+import reactor.core.publisher.Mono;
 
 public class BaseSaveUsecase<T> extends BaseUsecase<T> {
 
@@ -8,7 +9,7 @@ public class BaseSaveUsecase<T> extends BaseUsecase<T> {
         super(repository);
     }
 
-    public T save(T entity) {
+    public Mono<T> save(T entity) {
         return repository.save(entity);
     }
 }

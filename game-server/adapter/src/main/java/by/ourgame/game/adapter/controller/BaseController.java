@@ -3,8 +3,8 @@ package by.ourgame.game.adapter.controller;
 import by.ourgame.game.usecase.BaseDeleteUsecase;
 import by.ourgame.game.usecase.BaseFindUsecase;
 import by.ourgame.game.usecase.BaseSaveUsecase;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public class BaseController<T> {
     private final BaseSaveUsecase<T> saveUsecase;
@@ -19,23 +19,23 @@ public class BaseController<T> {
         this.deleteUsecase = deleteUsecase;
     }
 
-    public T save(T entity) {
+    public Mono<T> save(T entity) {
         return saveUsecase.save(entity);
     }
 
-    public T update(T entity) {
+    public Mono<T> update(T entity) {
         return saveUsecase.save(entity);
     }
 
-    public List<T> findAll() {
+    public Flux<T> findAll() {
         return findUsecase.findAll();
     }
 
-    public T findById(String id) {
+    public Mono<T> findById(String id) {
         return findUsecase.findById(id);
     }
 
-    public void deleteById(String id) {
-        deleteUsecase.deleteById(id);
+    public Mono<Void> deleteById(String id)  {
+        return deleteUsecase.deleteById(id);
     }
 }

@@ -1,8 +1,8 @@
 package by.ourgame.game.usecase;
 
 import by.ourgame.game.usecase.port.BaseRepository;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public class BaseFindUsecase<T> extends BaseUsecase<T> {
 
@@ -10,11 +10,11 @@ public class BaseFindUsecase<T> extends BaseUsecase<T> {
         super(repository);
     }
 
-    public T findById(String id) {
-        return repository.findById(id).get();
+    public Mono<T> findById(String id) {
+        return repository.findById(id);
     }
 
-    public List<T> findAll() {
+    public Flux<T> findAll() {
         return repository.findAll();
     }
 }

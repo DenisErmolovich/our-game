@@ -1,15 +1,15 @@
 package by.ourgame.game.usecase.port;
 
-import java.util.List;
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface BaseRepository<T> {
 
-    T save(T entity);
+    <S extends T> Mono<S> save(S entity);
 
-    Optional<T> findById(String id);
+    Mono<T> findById(String id);
 
-    List<T> findAll();
+    Flux<T> findAll();
 
-    void deleteById(String id);
+    Mono<Void> deleteById(String id);
 }

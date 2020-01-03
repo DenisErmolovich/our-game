@@ -1,6 +1,7 @@
 package by.ourgame.game.usecase;
 
 import by.ourgame.game.usecase.port.BaseRepository;
+import reactor.core.publisher.Mono;
 
 public class BaseDeleteUsecase<T> extends BaseUsecase<T> {
 
@@ -8,7 +9,7 @@ public class BaseDeleteUsecase<T> extends BaseUsecase<T> {
         super(repository);
     }
 
-    public void deleteById(String id) {
-        repository.deleteById(id);
+    public Mono<Void> deleteById(String id) {
+        return repository.deleteById(id);
     }
 }
