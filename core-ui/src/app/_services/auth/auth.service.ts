@@ -1,28 +1,30 @@
 import {Injectable} from '@angular/core';
-import {AuthResponse} from "../../_models/auth-response";
-import {AuthHttpService} from "./auth-http.service";
-import {AuthRequest} from "../../_models/auth-request";
-import {BalloonErrorService} from "../errors/balloon-error.service";
-import {Router} from "@angular/router";
+import {AuthResponse} from '../../_models/auth-response';
+import {AuthHttpService} from './auth-http.service';
+import {AuthRequest} from '../../_models/auth-request';
+import {BalloonErrorService} from '../errors/balloon-error.service';
+import {Router} from '@angular/router';
+import {User} from '../../_models/user';
+import {JwtHelperService} from "@auth0/angular-jwt";
+import {Roles} from "../../_enums/roles.enum";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private static readonly AUTH_PROP_NAME = 'auth';
-  private _auth: AuthResponse;
+  private static readonly AUTH_PROP_NAME = 'user';
+  private _user: User;
 
   constructor(
     private authHttpService: AuthHttpService,
     private errorService: BalloonErrorService,
     private router: Router
   ) {
-    this._auth = this.getAuthLS();
+    this._user = this.getUserFromLs();
   }
 
-
-  get auth(): AuthResponse {
-    return this._auth;
+  get user(): User {
+    return this._user;
   }
 
   public login(authRequest: AuthRequest): void {
@@ -32,25 +34,33 @@ export class AuthService {
   }
 
   public logout(): void {
-    this._auth = null;
+    this._user = null;
     this.removeAuthLS();
   }
 
   private onLogin(response: AuthResponse) {
-    this._auth = response;
-    this.setAuthLS(response);
+    this._user = this.converTokenToUser(response.token);
+    this.setUserToLs(this._user);
     this.router.navigate(['/']);
   }
 
-  private getAuthLS(): AuthResponse | null {
+  private converTokenToUser(token: string): User {
+    const helper = new JwtHelperService();
+    const decodedToken = helper.decodeToken(token);
+    const login: string = decodedToken['login'];
+    const roles: Array<Roles> = decodedToken['roles'];
+    return {token, login, roles};
+  }
+
+  private getUserFromLs(): User | null {
     const authFromLS = localStorage.getItem(AuthService.AUTH_PROP_NAME);
     if (authFromLS) {
-      return authFromLS as AuthResponse;
+      return JSON.parse(authFromLS) as User;
     }
     return null;
   }
 
-  private setAuthLS(auth: AuthResponse): void {
+  private setUserToLs(auth: User): void {
     localStorage.setItem(AuthService.AUTH_PROP_NAME, JSON.stringify(auth));
   }
 
