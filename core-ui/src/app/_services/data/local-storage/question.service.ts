@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {QuestionServiceInterface} from '../question-service-interface';
-import {Question} from '../../../_models/question';
+import {OldQuestion} from '../../../_models/old-question';
 import {GameService} from './game.service';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class QuestionService implements QuestionServiceInterface {
     private gameService: GameService
   ) { }
 
-  public getQuestion(gameId: string, roundId: string, questionId: string): Question {
+  public getQuestion(gameId: string, roundId: string, questionId: string): OldQuestion {
     const game = this.gameService.getById(gameId);
     if (roundId === 'super') {
       return game.superRound.questions.find(question => question.id === questionId);
@@ -47,7 +47,7 @@ export class QuestionService implements QuestionServiceInterface {
     return null;
   }
 
-  public updateQuestion(gameId: string, roundId: string, question: Question): void {
+  public updateQuestion(gameId: string, roundId: string, question: OldQuestion): void {
     const games = this.gameService.getAll();
     const game = games.find(item => item.id === gameId);
     if (roundId === 'super') {

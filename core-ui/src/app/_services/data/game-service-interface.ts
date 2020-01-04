@@ -1,9 +1,9 @@
-import {Game} from '../../_models/game';
+import {OldGame} from '../../_models/old-game';
 
 export interface GameServiceInterface {
-  create(game: Game): Game;
+  create(game: OldGame): OldGame;
   delete(id: string): void;
-  getAll(): Array<Game>;
-  getById(id: string): Game;
-  update(game: Game): Game;
+  getAll(): Array<OldGame>;
+  getById(id: string): OldGame;
+  update(game: OldGame): OldGame;
 }

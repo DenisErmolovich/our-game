@@ -1,4 +1,7 @@
-export class GameSettings {
+/**
+ * @deprecated for removal
+ */
+export class OldGameSettings {
   constructor(
     public id: string = null,
     public topicsInRound: number = null,

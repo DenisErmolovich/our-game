@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RoundService} from '../../../../_services/data/local-storage/round.service';
-import {SuperRound} from '../../../../_models/super-round';
+import {OldSuperRound} from '../../../../_models/old-super-round';
 
 @Component({
   selector: 'app-super-round',
@@ -10,7 +10,7 @@ import {SuperRound} from '../../../../_models/super-round';
 })
 export class SuperRoundComponent implements OnInit {
   public gameId: string;
-  public superRound: SuperRound;
+  public superRound: OldSuperRound;
   public hideQuestionMap = new Map<string, boolean>();
 
   constructor(
