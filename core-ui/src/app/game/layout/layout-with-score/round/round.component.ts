@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Round} from '../../../../_models/round';
+import {OldRound} from '../../../../_models/old-round';
 import {RoundService} from '../../../../_services/data/local-storage/round.service';
 import {QuestionService} from '../../../../_services/data/local-storage/question.service';
 
@@ -12,7 +12,7 @@ import {QuestionService} from '../../../../_services/data/local-storage/question
 export class RoundComponent implements OnInit {
   public gameId: string;
   public roundId: string;
-  public round: Round;
+  public round: OldRound;
 
   constructor(
     private activateRout: ActivatedRoute,

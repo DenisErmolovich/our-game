@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {GameService} from '../../../_services/data/local-storage/game.service';
-import {Game} from '../../../_models/game';
+import {OldGame} from '../../../_models/old-game';
 import {Router} from '@angular/router';
 
 @Component({
@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./game-list.component.scss']
 })
 export class GameListComponent implements OnInit {
-  public games: Array<Game>;
+  public games: Array<OldGame>;
 
   constructor(
     private gameService: GameService,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Game} from '../../../_models/game';
+import {OldGame} from '../../../_models/old-game';
 import {HttpClient} from '@angular/common/http';
 import {BalloonErrorService} from '../../errors/balloon-error.service';
 import {ErrorBase} from '../../../_models/error-base';
@@ -17,8 +17,8 @@ export class GameService implements GameServiceInterface {
     private router: Router
   ) { }
 
-  public create(game: Game) {
-    const games: Array<Game> = this.getAll();
+  public create(game: OldGame) {
+    const games: Array<OldGame> = this.getAll();
     if (this.checkIsGameExist(game.id)) {
       this.errorService.sendError(`Игра с Id ${game.id} уже существует`);
       return null;
@@ -36,27 +36,30 @@ export class GameService implements GameServiceInterface {
     localStorage.setItem('games', JSON.stringify(games));
   }
 
-  public getAll(): Array<Game> {
-    let games: Array<Game>;
-    games = JSON.parse(localStorage.getItem('games')) as Array<Game>;
+  public getAll(): Array<OldGame> {
+    let games: Array<OldGame>;
+    games = JSON.parse(localStorage.getItem('games')) as Array<OldGame>;
     if (!games) {
-      games = new Array<Game>();
+      games = new Array<OldGame>();
     }
     return games;
   }
 
-  public getById(id: string): Game {
+  public getById(id: string): OldGame {
     const games = this.getAll();
     return games.find(game => game.id === id);
   }
 
-  public update(game: Game) {
+  public update(game: OldGame) {
     return null;
   }
 
+  /**
+   * @deprecated for removal
+   */
   public initGameFromJson(): void {
-    let game: Game;
-    this.http.get<Game>('assets/temp/initGame.json').subscribe(
+    let game: OldGame;
+    this.http.get<OldGame>('assets/temp/initGame.json').subscribe(
       resp => {
         game = resp;
         if (this.isGameValid(game) && this.create(game)) {
@@ -67,7 +70,10 @@ export class GameService implements GameServiceInterface {
     );
   }
 
-  private isGameValid(game: Game): boolean {
+  /**
+   * @deprecated for removal
+   */
+  private isGameValid(game: OldGame): boolean {
     if (!game.rounds || game.rounds.length !== game.settings.rounds) {
       this.errorService.sendError(`Неправильное колличство раундов в файле-конфигурации`);
       return false;
@@ -96,6 +102,9 @@ export class GameService implements GameServiceInterface {
     return true;
   }
 
+  /**
+   * @deprecated for removal
+   */
   private checkIsGameExist(id: string): boolean {
     const games = this.getAll();
     if (games && games.find(game => game.id === id)) {

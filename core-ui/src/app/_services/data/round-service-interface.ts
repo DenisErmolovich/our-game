@@ -1,7 +1,7 @@
-import {Round} from '../../_models/round';
-import {SuperRound} from '../../_models/super-round';
+import {OldRound} from '../../_models/old-round';
+import {OldSuperRound} from '../../_models/old-super-round';
 
 export interface RoundServiceInterface {
-  getRound(gameId, roundId): Round;
-  getSuperRound(gameId): SuperRound;
+  getRound(gameId, roundId): OldRound;
+  getSuperRound(gameId): OldSuperRound;
 }

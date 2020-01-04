@@ -1,6 +1,9 @@
 import {QuestionTypes} from '../_enums/question-types.enum';
 
-export class Question {
+/**
+ * @deprecated for removal
+ */
+export class OldQuestion {
   constructor(
     public id: string = null,
     public type: QuestionTypes = null,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GameService} from '../../../../_services/data/local-storage/game.service';
-import {Game} from '../../../../_models/game';
+import {OldGame} from '../../../../_models/old-game';
 
 @Component({
   selector: 'app-game',
@@ -9,7 +9,7 @@ import {Game} from '../../../../_models/game';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  public game: Game;
+  public game: OldGame;
 
   constructor(
     private activateRouter: ActivatedRoute,

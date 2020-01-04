@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PlayerService} from '../../../_services/data/local-storage/player.service';
-import {User} from '../../../_models/user';
+import {OldUser} from '../../../_models/old-user';
 import {ScoreUpdateService} from '../../../_services/component-communication/score-update.service';
 
 @Component({
@@ -11,7 +11,7 @@ import {ScoreUpdateService} from '../../../_services/component-communication/sco
 })
 export class LayoutWithScoreComponent implements OnInit {
   private gameId: string;
-  public players: Array<User>;
+  public players: Array<OldUser>;
 
   constructor(
     private router: ActivatedRoute,

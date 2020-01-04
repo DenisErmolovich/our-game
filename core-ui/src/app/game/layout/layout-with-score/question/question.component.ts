@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {QuestionService} from '../../../../_services/data/local-storage/question.service';
-import {Question} from '../../../../_models/question';
+import {OldQuestion} from '../../../../_models/old-question';
 import {QuestionState} from '../../../../_enums/question-state.enum';
 import {QuestionTypes} from '../../../../_enums/question-types.enum';
 import {PlayerService} from '../../../../_services/data/local-storage/player.service';
-import {User} from '../../../../_models/user';
+import {OldUser} from '../../../../_models/old-user';
 import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
@@ -17,9 +17,9 @@ export class QuestionComponent implements OnInit, OnDestroy {
   public gameId: string;
   public roundId: string;
   public questionId: string;
-  public question: Question;
+  public question: OldQuestion;
   public state: QuestionState;
-  public players: Array<User>;
+  public players: Array<OldUser>;
   public answeredUsersMap = new Map<string, boolean>();
   public formGroup = new FormGroup({});
 

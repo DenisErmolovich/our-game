@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {PlayerServiceInterface} from '../player-service-interface';
 import {GameService} from './game.service';
-import {User} from '../../../_models/user';
+import {OldUser} from '../../../_models/old-user';
 import {QuestionService} from './question.service';
 import {ScoreUpdateService} from '../../component-communication/score-update.service';
 
@@ -16,7 +16,7 @@ export class PlayerService implements PlayerServiceInterface {
     private scoreUpdateService: ScoreUpdateService
   ) { }
 
-  public getPlayersByGameId(gameId: string): Array<User> {
+  public getPlayersByGameId(gameId: string): Array<OldUser> {
     return this.gameService.getById(gameId).players;
   }
 
