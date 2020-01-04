@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {GameService} from '../../_services/data/local-storage/game.service';
 import {Router} from '@angular/router';
 
+/**
+ * @deprecated for removal
+ */
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

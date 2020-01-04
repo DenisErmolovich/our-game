@@ -54,6 +54,9 @@ export class GameService implements GameServiceInterface {
     return null;
   }
 
+  /**
+   * @deprecated for removal
+   */
   public initGameFromJson(): void {
     let game: OldGame;
     this.http.get<OldGame>('assets/temp/initGame.json').subscribe(
@@ -67,6 +70,9 @@ export class GameService implements GameServiceInterface {
     );
   }
 
+  /**
+   * @deprecated for removal
+   */
   private isGameValid(game: OldGame): boolean {
     if (!game.rounds || game.rounds.length !== game.settings.rounds) {
       this.errorService.sendError(`Неправильное колличство раундов в файле-конфигурации`);
@@ -96,6 +102,9 @@ export class GameService implements GameServiceInterface {
     return true;
   }
 
+  /**
+   * @deprecated for removal
+   */
   private checkIsGameExist(id: string): boolean {
     const games = this.getAll();
     if (games && games.find(game => game.id === id)) {
