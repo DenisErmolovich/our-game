@@ -6,5 +6,5 @@ import lombok.Data;
 public class Game {
     private String id;
     private String name;
-    private String authorId;
+    private String authorLogin;
 }
