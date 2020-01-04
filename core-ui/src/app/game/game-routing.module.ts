@@ -8,8 +8,9 @@ import {QuestionComponent} from './layout/layout-with-score/question/question.co
 
 const routes: Routes = [
   {
-    path: 'game',
-    component: GameListComponent
+    path: '',
+    component: GameListComponent,
+    pathMatch: 'full'
   },
   {
     path: 'game/:gameId',
