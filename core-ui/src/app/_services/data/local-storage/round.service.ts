@@ -4,6 +4,9 @@ import {OldRound} from '../../../_models/old-round';
 import {GameService} from './game.service';
 import {OldSuperRound} from '../../../_models/old-super-round';
 
+/**
+ * @deprecated for removal
+ */
 @Injectable({
   providedIn: 'root'
 })

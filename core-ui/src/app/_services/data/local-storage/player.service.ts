@@ -5,6 +5,9 @@ import {OldUser} from '../../../_models/old-user';
 import {QuestionService} from './question.service';
 import {ScoreUpdateService} from '../../component-communication/score-update.service';
 
+/**
+ * @deprecated for removal
+ */
 @Injectable({
   providedIn: 'root'
 })

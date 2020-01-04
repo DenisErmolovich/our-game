@@ -6,6 +6,9 @@ import {ErrorBase} from '../../../_models/error-base';
 import {GameServiceInterface} from '../game-service-interface';
 import {Router} from '@angular/router';
 
+/**
+ * @deprecated for removal
+ */
 @Injectable({
   providedIn: 'root'
 })

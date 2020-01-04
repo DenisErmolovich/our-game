@@ -3,6 +3,9 @@ import {QuestionServiceInterface} from '../question-service-interface';
 import {OldQuestion} from '../../../_models/old-question';
 import {GameService} from './game.service';
 
+/**
+ * @deprecated for removal
+ */
 @Injectable({
   providedIn: 'root'
 })
