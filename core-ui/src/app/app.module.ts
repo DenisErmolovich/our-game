@@ -7,6 +7,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {ErrorModule} from './error/error.module';
 import {GameModule} from './game/game.module';
 import {AuthModule} from './auth/auth.module';
+import {httpInterceptorProviders} from './_interceptors/http-interceptors';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import {AuthModule} from './auth/auth.module';
     GameModule,
     ErrorModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -23,7 +23,7 @@ export class AuthService {
     this._user = this.getUserFromLs();
   }
 
-  get user(): User {
+  get user(): User | null {
     return this._user;
   }
 
