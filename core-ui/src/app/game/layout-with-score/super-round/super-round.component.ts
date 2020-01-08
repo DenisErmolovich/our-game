@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {RoundService} from '../../../../_services/data/local-storage/round.service';
-import {OldSuperRound} from '../../../../_models/old-super-round';
+import {RoundService} from '../../../_services/data/local-storage/round.service';
+import {OldSuperRound} from '../../../_models/old-super-round';
 
 @Component({
   selector: 'app-super-round',

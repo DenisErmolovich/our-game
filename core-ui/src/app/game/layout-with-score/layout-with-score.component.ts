@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {PlayerService} from '../../../_services/data/local-storage/player.service';
-import {OldUser} from '../../../_models/old-user';
-import {ScoreUpdateService} from '../../../_services/component-communication/score-update.service';
+import {PlayerService} from '../../_services/data/local-storage/player.service';
+import {OldUser} from '../../_models/old-user';
+import {ScoreUpdateService} from '../../_services/component-communication/score-update.service';
 
 @Component({
   selector: 'app-layout-with-score',

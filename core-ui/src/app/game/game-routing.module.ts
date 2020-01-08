@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {GameListComponent} from './layout/game-list/game-list.component';
-import {GameComponent} from './layout/layout-with-score/game/game.component';
-import {SuperRoundComponent} from './layout/layout-with-score/super-round/super-round.component';
-import {RoundComponent} from './layout/layout-with-score/round/round.component';
-import {QuestionComponent} from './layout/layout-with-score/question/question.component';
+import {GameListComponent} from './game-list/game-list.component';
+import {GameComponent} from './layout-with-score/game/game.component';
+import {SuperRoundComponent} from './layout-with-score/super-round/super-round.component';
+import {RoundComponent} from './layout-with-score/round/round.component';
+import {QuestionComponent} from './layout-with-score/question/question.component';
 import {PlayerRoleGuard} from '../_guards/player-role.guard';
 
 const routes: Routes = [
