@@ -1,4 +1,4 @@
-<header class="navbar navbar-light bg-light justify-content-start game-header">
+<header class="navbar navbar-expand navbar-light bg-light justify-content-start game-header">
   <a [routerLink]="['/']"
      class="navbar-brand"
   >
@@ -10,6 +10,13 @@
        [routerLinkActiveOptions]="{exact: true}"
        class="nav-item nav-link"
     >
+      ToDo
+    </a>
+    <a [routerLink]="['/constructor/games']"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="nav-item nav-link"
+    >
       Игры
     </a>
   </div>
@@ -17,7 +24,9 @@
 <div class="container-fluid">
   <div class="row game-content">
     <div class="col">
+<!--      ToDo: for removal-->
       <ng-content></ng-content>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

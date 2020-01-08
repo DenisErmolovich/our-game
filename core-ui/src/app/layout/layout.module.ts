@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {LayoutComponent} from './layout.component';
 import {RouterModule} from '@angular/router';
+import {ConstructorModule} from './constructor/constructor.module';
 
 
 
@@ -11,7 +12,8 @@ import {RouterModule} from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    ConstructorModule
   ],
   exports: [
     LayoutComponent
