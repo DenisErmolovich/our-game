@@ -16,53 +16,77 @@ http {
 
     proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=cache:32m max_size=1g;
 
-    {% for upstream in all_upstreams %}
-    upstream {{ upstream.name }} {
-        server {{ upstream.url }};
-    }
-    {% endfor %}
 
-    {% for subdomain in all_subdomains %}
+    upstream auth {
+        server auth-server:8090;
+    }
+
+    upstream game {
+        server game-server:8091;
+    }
+
+
+
     server {
         listen 8080;
-        server_name {{ subdomain.url }};
+        server_name localhost;
 
         # static locations
-        {% if subdomain.static_root %}
+
         location / {
-            root {{ subdomain.static_root }};
+            root /static/core-ui;
             try_files $uri$args $uri$args/ /index.html;
             autoindex off;
             access_log off;
             expires max;
         }
-        {% endif %}
+
         # api locations
-        {% for location in subdomain.locations %}
-        location ~ {{ location.regex }} {
-            {% if not location.nosecurity %}
-            access_by_lua '
-                local jwt = require("security-jwt")
-                {% if location.roles %}
-                jwt.check({ "{{ location.roles | join('", "') }}" })
-                {% else %}
-                jwt.check()
-                {% endif %}
-            ';
-            {% endif %}
-            {% if location.cache %}
-            proxy_cache cache;
-            proxy_cache_valid {{ location.cache }};
-            {% endif %}
-            proxy_pass http://{{ location.upstream.name }}$1$is_args$args;
+
+        location ~ ^/api/auth(/token(?:\?.*)?)$ {
+            if ($request_method != 'OPTIONS') {
+
+            }
+
+            proxy_pass http://auth$1$is_args$args;
         }
-        {% endfor %}
-        {% if subdomain.locations %}
+
+        location ~ ^/api/game(/games(?:\?.*)?)$ {
+            if ($request_method != 'OPTIONS') {
+
+                access_by_lua '
+                    local jwt = require("security-jwt")
+
+                    jwt.check({ "PLAYER", "ADMIN" })
+
+                ';
+
+            }
+
+            proxy_pass http://game$1$is_args$args;
+        }
+
+        location ~ ^/api/game(/games/\w+(?:\?.*)?)$ {
+            if ($request_method != 'OPTIONS') {
+
+                access_by_lua '
+                    local jwt = require("security-jwt")
+
+                    jwt.check({ "PLAYER", "ADMIN" })
+
+                ';
+
+            }
+
+            proxy_pass http://game$1$is_args$args;
+        }
+
+
         location ~* ^/api {
             return 404;
         }
-        {% endif %}
+
 
     }
-    {% endfor %}
+
 }
