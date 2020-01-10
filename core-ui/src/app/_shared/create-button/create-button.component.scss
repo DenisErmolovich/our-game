@@ -1,0 +1,19 @@
+@import "src/assets/styles/common/collors";
+@import "src/assets/styles/common/mixins";
+
+.create-button {
+  @include box(60);
+  background: $color-white;
+  color: $color-main;
+  border: solid 3px $color-white;
+  font-size: 60px;
+  cursor: pointer;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  &:hover {
+    background: none;
+    color: $color-white;
+    font-size: 70px;
+  }
+}
