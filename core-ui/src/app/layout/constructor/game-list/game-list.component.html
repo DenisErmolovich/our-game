@@ -1,7 +1,7 @@
 <div *ngIf="games?.length > 0">
 
   <div *ngFor="let game of games">
-    <div>Game: {{game.id}}, {{game.name}}, {{game.authorLogin}}</div>
+    <app-game-row [game]="game"></app-game-row>
   </div>
 
 </div>

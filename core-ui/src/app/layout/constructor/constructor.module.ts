@@ -5,13 +5,15 @@ import {ConstructorRoutingModule} from './constructor-routing.module';
 import { GameEditorComponent } from './game-editor/game-editor.component';
 import {SharedModule} from '../../_shared/shared.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import { GameRowComponent } from './game-list/game-row/game-row.component';
 
 
 
 @NgModule({
   declarations: [
     GameListComponent,
-    GameEditorComponent
+    GameEditorComponent,
+    GameRowComponent
   ],
   imports: [
     CommonModule,
