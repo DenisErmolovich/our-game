@@ -1,4 +1,13 @@
-<p>game-list works!</p>
-<div *ngFor="let game of games">
-  <div>Game: {{game.id}}, {{game.name}}, {{game.authorLogin}}</div>
+<div *ngIf="games?.length > 0">
+
+  <div *ngFor="let game of games">
+    <div>Game: {{game.id}}, {{game.name}}, {{game.authorLogin}}</div>
+  </div>
+
+</div>
+<div *ngIf="games?.length === 0"
+     class="text-center">
+  <h1>
+    Вы ещё не создали ни одной игры =(
+  </h1>
 </div>

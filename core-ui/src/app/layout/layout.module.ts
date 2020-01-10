@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {LayoutComponent} from './layout.component';
 import {RouterModule} from '@angular/router';
 import {ConstructorModule} from './constructor/constructor.module';
+import {ErrorModule} from '../error/error.module';
 
 
 
@@ -13,7 +14,8 @@ import {ConstructorModule} from './constructor/constructor.module';
   imports: [
     CommonModule,
     RouterModule,
-    ConstructorModule
+    ConstructorModule,
+    ErrorModule
   ],
   exports: [
     LayoutComponent

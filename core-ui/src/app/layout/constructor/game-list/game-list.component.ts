@@ -19,7 +19,7 @@ export class GameListComponent implements OnInit {
   ngOnInit() {
     this.gameService.findAll().subscribe(
       response => this._games = response,
-      error => this.errorService.sendError(error)
+      error => this.errorService.sendError(error.error.error)
     );
   }
 
