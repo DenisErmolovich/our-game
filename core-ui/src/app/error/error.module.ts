@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BallonErrorComponent } from './ballon-error/ballon-error.component';
+import { BalloonErrorComponent } from './balloon-error/balloon-error.component';
 
 @NgModule({
-  declarations: [BallonErrorComponent],
+  declarations: [BalloonErrorComponent],
   imports: [
     CommonModule
   ],
-  exports: [BallonErrorComponent]
+  exports: [BalloonErrorComponent]
 })
 export class ErrorModule { }

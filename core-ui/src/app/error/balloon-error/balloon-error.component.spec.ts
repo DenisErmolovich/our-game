@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BallonErrorComponent } from './ballon-error.component';
+import { BalloonErrorComponent } from './balloon-error.component';
 
 describe('BallonErrorComponent', () => {
-  let component: BallonErrorComponent;
-  let fixture: ComponentFixture<BallonErrorComponent>;
+  let component: BalloonErrorComponent;
+  let fixture: ComponentFixture<BalloonErrorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BallonErrorComponent ]
+      declarations: [ BalloonErrorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BallonErrorComponent);
+    fixture = TestBed.createComponent(BalloonErrorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
