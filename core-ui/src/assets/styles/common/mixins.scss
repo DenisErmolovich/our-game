@@ -1,0 +1,4 @@
+@mixin box($size) {
+  width: $size * 1px;
+  height: $size * 1px;
+}
