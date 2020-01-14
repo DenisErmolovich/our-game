@@ -17,14 +17,22 @@ export class GameListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.gameService.findAll().subscribe(
-      response => this._games = response,
-      error => this.errorService.sendError(error.error.error)
-    );
+    this.getGames();
   }
 
 
   get games(): Array<Game> {
     return this._games;
+  }
+
+  onReloadData(): void {
+    this.getGames();
+  }
+
+  private getGames(): void {
+    this.gameService.findAll().subscribe(
+      response => this._games = response,
+      error => this.errorService.sendError(error.error.error)
+    );
   }
 }

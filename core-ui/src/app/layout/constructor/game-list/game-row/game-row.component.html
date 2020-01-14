@@ -1,1 +1,15 @@
-<p>game-row works!</p>
+<div class="row">
+  <div class="col">
+    {{game.name}}({{game.authorLogin}})
+  </div>
+  <div class="col-auto">
+    <div class="btn-group">
+      <a class="btn btn-dark">
+        Редактировать
+      </a>
+      <button class="btn btn-danger" (click)="delete(game.id)">
+        Удалить
+      </button>
+    </div>
+  </div>
+</div>

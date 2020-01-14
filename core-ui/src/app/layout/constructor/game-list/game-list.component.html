@@ -1,7 +1,7 @@
 <div *ngIf="games?.length > 0">
 
   <div *ngFor="let game of games">
-    <app-game-row [game]="game"></app-game-row>
+    <app-game-row [game]="game" (reloadData)="onReloadData()"></app-game-row>
   </div>
 
 </div>
