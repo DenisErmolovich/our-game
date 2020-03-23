@@ -4,10 +4,13 @@
   </div>
   <div class="col-auto">
     <div class="btn-group">
-      <a class="btn btn-dark">
+      <a [routerLink]="['/constructor/games/editor']"
+         [queryParams]="{id: game.id}"
+         class="btn btn-dark">
         Редактировать
       </a>
-      <button class="btn btn-danger" (click)="delete(game.id)">
+      <button class="btn btn-danger"
+              (click)="delete(game.id)">
         Удалить
       </button>
     </div>
