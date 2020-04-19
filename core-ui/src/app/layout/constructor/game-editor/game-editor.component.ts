@@ -8,6 +8,7 @@ import {GameService} from '../../../_services/data/http/game.service';
 import {BalloonErrorService} from '../../../_services/errors/balloon-error.service';
 import {ActivatedRoute} from '@angular/router';
 import {flatMap} from 'rxjs/operators';
+import {of} from "rxjs";
 
 @Component({
   selector: 'app-game-redactor',
@@ -28,11 +29,9 @@ export class GameEditorComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParamMap.pipe(
-      flatMap(params => params.get('id'))
+      flatMap(params => of(params.get('id')))
     ).subscribe(id => {
-      this._id = id;
-      this._form = this.initForm();
-      this.fillForm(this._form, {id: '1', name: 'boo'});
+      this.onInit(id);
     });
   }
 
@@ -50,7 +49,23 @@ export class GameEditorComponent implements OnInit {
       return;
     }
     const name = this._form.controls.name.value;
-    this.saveGame({name});
+    if (this.id) {
+      const id = this._id;
+      this.updateGame({id, name});
+    } else {
+      this.saveGame({name});
+    }
+  }
+
+  private onInit(id: string): void {
+    this._id = id;
+    this._form = this.initForm();
+    if (id) {
+      this.gameService.findById(id).subscribe(
+        game => this.fillForm(this._form, game),
+        error => this.errorService.sendError(JSON.stringify(error))
+      );
+    }
   }
 
   getValidationMessage(controlName: string): string {
@@ -75,6 +90,13 @@ export class GameEditorComponent implements OnInit {
 
   private saveGame(game: Game): void {
     this.gameService.save(game).subscribe(
+      response => this.location.back(),
+      error => this.errorService.sendError(JSON.stringify(error))
+    );
+  }
+
+  private updateGame(game: Game): void {
+    this.gameService.update(game).subscribe(
       response => this.location.back(),
       error => this.errorService.sendError(JSON.stringify(error))
     );

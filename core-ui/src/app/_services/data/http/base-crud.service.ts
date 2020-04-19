@@ -15,7 +15,7 @@ export abstract class BaseCrudService<T extends BaseWithId> extends BaseHttp {
   }
 
   update(entity: T): Observable<T> {
-    const url = this.prefix + '/' + entity.id;
+    const url = this.prefix;
     return this.http.put<T>(url, entity);
   }
 
