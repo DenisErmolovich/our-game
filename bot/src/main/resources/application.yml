@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27021
+      database: bot
+      username: root
+      password: xpaIWgQVgJlF
+      authentication-database: admin
+bot:
+  name: OurGameBot
+  token: 1158061222:AAHY8zteH25Pu74We_LqdE-nrlFoOInqO5w
+  timeOut: 900

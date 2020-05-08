@@ -1,0 +1,23 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'io.freefair.lombok' version '5.0.1'
+}
+
+group = 'by.ourgame'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_14
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation (
+            'org.springframework.boot:spring-boot-starter',
+            'org.springframework.boot:spring-boot-starter-data-mongodb-reactive',
+            'org.springframework.boot:spring-boot-starter-webflux',
+            'org.projectreactor:reactor-spring:1.0.1.RELEASE'
+    )
+}
