@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/games")
 public class SpringGameController extends BaseSpringController<Game> {
 
-    public SpringGameController(BaseSaveUsecase<Game> saveUsecase,
-                                BaseFindUsecase<Game> findUsecase,
-                                BaseDeleteUsecase<Game> deleteUsecase) {
-        super(saveUsecase, findUsecase, deleteUsecase);
+    public SpringGameController(BaseSaveUsecase<Game> gameSaveUsecase,
+                                BaseFindUsecase<Game> gameFindUsecase,
+                                BaseDeleteUsecase<Game> gameDeleteUsecase) {
+        super(gameSaveUsecase, gameFindUsecase, gameDeleteUsecase);
     }
 }

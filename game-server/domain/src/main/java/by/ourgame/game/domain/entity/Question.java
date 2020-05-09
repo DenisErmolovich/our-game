@@ -5,8 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class Question {
-    private String id;
+public class Question extends BaseWithAuthor{
     private QuestionType type;
     private String topic;
     private String text;

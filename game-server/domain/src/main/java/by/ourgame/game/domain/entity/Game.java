@@ -3,8 +3,6 @@ package by.ourgame.game.domain.entity;
 import lombok.Data;
 
 @Data
-public class Game {
-    private String id;
+public class Game extends BaseWithAuthor {
     private String name;
-    private String authorLogin;
 }
