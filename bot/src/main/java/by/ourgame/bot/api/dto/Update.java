@@ -19,4 +19,7 @@ public class Update {
 
     @JsonProperty("edited_channel_post")
     private Message editedChannelPost;
+
+    @JsonProperty("callback_query")
+    private CallbackQuery callbackQuery;
 }

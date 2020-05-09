@@ -7,5 +7,10 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface GameRepository extends ReactiveMongoRepository<Game, String> {
+
     Mono<Game> findByChat_Id(Integer id);
+
+    Mono<Game> findByCreator_Id(Integer id);
+
+    Mono<Game> findByChat_IdAndCanAnswer(Integer id, boolean canAnswer);
 }

@@ -2,6 +2,7 @@ package by.ourgame.bot.config;
 
 import by.ourgame.bot.api.client.ReactiveBotClient;
 import by.ourgame.bot.api.config.BotConfig;
+import by.ourgame.bot.api.method.EditMessageTextMethod;
 import by.ourgame.bot.api.method.GetUpdatesMethod;
 import by.ourgame.bot.api.method.SendMessageMethod;
 import org.springframework.context.annotation.Bean;
@@ -23,5 +24,10 @@ public class BotContext {
     @Bean
     public SendMessageMethod sendMessageMethod(ReactiveBotClient client) {
         return new SendMessageMethod(client);
+    }
+
+    @Bean
+    public EditMessageTextMethod editMessageTextMethod(ReactiveBotClient client) {
+        return new EditMessageTextMethod(client);
     }
 }

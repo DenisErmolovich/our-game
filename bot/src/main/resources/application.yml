@@ -1,3 +1,4 @@
+
 spring:
   data:
     mongodb:
@@ -11,3 +12,5 @@ bot:
   name: OurGameBot
   token: 1158061222:AAHY8zteH25Pu74We_LqdE-nrlFoOInqO5w
   timeOut: 900
+server:
+  port: 8095

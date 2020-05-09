@@ -43,10 +43,16 @@ public abstract class TelegramReactiveBot {
 
     public abstract void processUpdateIfNotCommand(Update update);
 
+    public abstract void processInlineCommand(Update update);
+
     private void processUpdate(Update update, GetUpdatesRequest getUpdatesRequest) {
         var offset = update.getUpdateId() + 1;
         if (!processCommand(update)) {
-            processUpdateIfNotCommand(update);
+            if (update.getCallbackQuery() == null) {
+                processUpdateIfNotCommand(update);
+            } else {
+                processInlineCommand(update);
+            }
         }
         getUpdatesRequest.setOffset(offset);
     }
@@ -76,7 +82,11 @@ public abstract class TelegramReactiveBot {
     }
 
     private Optional<String> retrieveCommand(Update update) {
-        var messageEntities = update.getMessage().getEntities();
+        var message = update.getMessage();
+        if (message == null) {
+            return Optional.empty();
+        }
+        var messageEntities = message.getEntities();
         if (messageEntities == null) {
             return Optional.empty();
         }
