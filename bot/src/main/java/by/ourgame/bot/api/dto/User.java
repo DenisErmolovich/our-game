@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class User {
-    private Integer id;
+    private Long id;
 
     @JsonProperty("is_bot")
     private Boolean isBot;

@@ -9,11 +9,11 @@ import java.util.List;
 @Data
 public class Message {
     @JsonProperty("message_id")
-    private Integer messageId;
+    private Long messageId;
 
     private User from;
 
-    private Integer date;
+    private Long date;
 
     private Chat chat;
 
@@ -33,13 +33,13 @@ public class Message {
     private String forwardSenderName;
 
     @JsonProperty("forward_date")
-    private Integer forwardDate;
+    private Long forwardDate;
 
     @JsonProperty("reply_to_message")
     private Message replyToMessage;
 
     @JsonProperty("edit_date")
-    private Integer editDate;
+    private Long editDate;
 
     @JsonProperty("media_group_id")
     private String mediaGroupId;

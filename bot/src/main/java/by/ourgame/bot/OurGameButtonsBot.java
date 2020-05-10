@@ -86,18 +86,13 @@ public class OurGameButtonsBot extends TelegramReactiveBot {
     @Override
     public Map<String, Consumer<Update>> getCustomCommandProcessorMap() {
         var commands = new HashMap<String, Consumer<Update>>();
-        commands.put("/startGame", this::processStartGame);
-        commands.put("/finishGame", this::processFinishGame);
+        commands.put("/startgame", this::processStartGame);
+        commands.put("/finishgame", this::processFinishGame);
         return commands;
     }
 
     @Override
     public void processUpdateIfNotCommand(Update update) {
-        sendMessageWithSubscription("" +
-                        "Я ещё не на столько умный, чтобы понимать тебя =(.\n" +
-                        "Используй комманды начинающиеся с / или нажми на /help" +
-                        "",
-                update);
     }
 
     @Override

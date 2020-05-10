@@ -13,7 +13,7 @@ public class EditMessageTextRequest {
     private String chatId;
 
     @JsonProperty("message_id")
-    private Integer messageId;
+    private Long messageId;
 
     @JsonProperty("inline_message_id")
     private String inlineMessageId;

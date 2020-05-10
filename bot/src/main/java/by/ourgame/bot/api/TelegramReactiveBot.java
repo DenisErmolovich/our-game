@@ -97,6 +97,6 @@ public abstract class TelegramReactiveBot {
                 .map(messageEntity -> update
                         .getMessage()
                         .getText()
-                        .substring(messageEntity.getOffset(), messageEntity.getLength()));
+                        .substring(messageEntity.getOffset(), messageEntity.getLength()).toLowerCase().split("@")[0]);
     }
 }

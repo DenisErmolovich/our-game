@@ -10,7 +10,7 @@ import lombok.Data;
 @Builder
 public class SendMessageRequest {
     @JsonProperty("chat_id")
-    private Integer chatId;
+    private Long chatId;
 
     private String text;
 
@@ -24,7 +24,7 @@ public class SendMessageRequest {
     private Boolean disableNotification;
 
     @JsonProperty("reply_to_message_id")
-    private Integer replyToMessageId;
+    private Long replyToMessageId;
 
     @JsonProperty("reply_markup")
     private ReplyMarkup replyMarkup;

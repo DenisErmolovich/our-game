@@ -6,7 +6,7 @@ import lombok.Data;
 // ToDo: add skipped fields
 @Data
 public class Chat {
-    private Integer id;
+    private Long id;
 
     private String type;
 

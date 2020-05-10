@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class ResponseParameters {
     @JsonProperty("migrate_to_chat_id")
-    private Integer migrateToChatId;
+    private Long migrateToChatId;
 
     @JsonProperty("retry_after")
-    private Integer retryAfter;
+    private Long retryAfter;
 }

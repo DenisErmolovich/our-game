@@ -11,7 +11,7 @@ public class Game {
     private String id;
     private User creator;
     private Chat chat;
-    private Integer creatorMessageId;
-    private Integer chatMessageId;
+    private Long creatorMessageId;
+    private Long chatMessageId;
     private boolean canAnswer;
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Builder
 public class GetUpdatesRequest {
-    private Integer offset;
+    private Long offset;
 
     private Integer limit;
 
