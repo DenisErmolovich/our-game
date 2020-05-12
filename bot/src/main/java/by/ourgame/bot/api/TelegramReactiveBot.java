@@ -1,6 +1,8 @@
 package by.ourgame.bot.api;
 
 import by.ourgame.bot.api.config.BotConfig;
+import by.ourgame.bot.api.dto.Message;
+import by.ourgame.bot.api.dto.MessageEntity;
 import by.ourgame.bot.api.dto.Update;
 import by.ourgame.bot.api.dto.request.GetUpdatesRequest;
 import by.ourgame.bot.api.method.GetUpdatesMethod;
@@ -20,6 +22,20 @@ public abstract class TelegramReactiveBot {
         this.getUpdatesMethod = getUpdatesMethod;
     }
 
+    public abstract void processStartCommand(Update update);
+
+    public abstract void processHelpCommand(Update update);
+
+    public abstract void processSettingsCommand(Update update);
+
+    public abstract void processNotSupportedCommand(Update update);
+
+    public abstract Map<String, Consumer<Update>> getCustomCommandProcessorMap();
+
+    public abstract void processCallbackQuery(Update update);
+
+    public abstract void processUpdateIfNotCommandAndNotCallbackQuery(Update update);
+
     public void startLongPooling() {
         var getUpdatesRequest = GetUpdatesRequest.builder()
                 .timeout(config.getTimeOut())
@@ -31,72 +47,54 @@ public abstract class TelegramReactiveBot {
                 .subscribe(update -> processUpdate(update, getUpdatesRequest));
     }
 
-    public abstract Consumer<Update> getStartProcessor();
-
-    public abstract Consumer<Update> getHelpProcessor();
-
-    public abstract Consumer<Update> getSettingsProcessor();
-
-    public abstract Consumer<Update> getNotSupportedCommandProcessor();
-
-    public abstract Map<String, Consumer<Update>> getCustomCommandProcessorMap();
-
-    public abstract void processUpdateIfNotCommand(Update update);
-
-    public abstract void processInlineCommand(Update update);
-
     private void processUpdate(Update update, GetUpdatesRequest getUpdatesRequest) {
+        getCommandProcessor(update)
+                .or(() -> getIfNotCommandProcessor(update))
+                .ifPresent(processor -> processor.accept(update));
         var offset = update.getUpdateId() + 1;
-        if (!processCommand(update)) {
-            if (update.getCallbackQuery() == null) {
-                processUpdateIfNotCommand(update);
-            } else {
-                processInlineCommand(update);
-            }
-        }
         getUpdatesRequest.setOffset(offset);
     }
 
-    private boolean processCommand(Update update) {
+    private Optional<Consumer<Update>> getCommandProcessor(Update update) {
         return retrieveCommand(update)
-                .map(command -> processCommand(command, update))
-                .orElse(false);
+                .flatMap(command -> getCommandProcessor(command, update));
     }
 
-    private boolean processCommand(String command, Update update) {
-        Optional.ofNullable(getCommandProcessorMap().get(command))
-                .ifPresentOrElse(
-                    processor -> processor.accept(update),
-                    () -> getNotSupportedCommandProcessor().accept(update)
-                );
-        return true;
+    private Optional<Consumer<Update>> getCommandProcessor(String command, Update update) {
+        return Optional.ofNullable(getCommandProcessorMap().get(command))
+                .or(() -> Optional.of(this::processNotSupportedCommand));
+    }
+
+    private Optional<Consumer<Update>> getIfNotCommandProcessor(Update update) {
+        return Optional.ofNullable(update.getCallbackQuery())
+                .map(callbackQuery -> (Consumer<Update>) this::processCallbackQuery)
+                .or(() -> Optional.of(this::processUpdateIfNotCommandAndNotCallbackQuery));
     }
 
     private Map<String, Consumer<Update>> getCommandProcessorMap() {
         var processorMap = new HashMap<String, Consumer<Update>>();
-        processorMap.put("/start", getStartProcessor());
-        processorMap.put("/help", getHelpProcessor());
-        processorMap.put("/settings", getSettingsProcessor());
+        processorMap.put("/start", this::processStartCommand);
+        processorMap.put("/help", this::processHelpCommand);
+        processorMap.put("/settings", this::processSettingsCommand);
         processorMap.putAll(getCustomCommandProcessorMap());
         return processorMap;
     }
 
     private Optional<String> retrieveCommand(Update update) {
-        var message = update.getMessage();
-        if (message == null) {
-            return Optional.empty();
-        }
-        var messageEntities = message.getEntities();
-        if (messageEntities == null) {
-            return Optional.empty();
-        }
-        return messageEntities
-                .stream()
-                .filter(messageEntity -> messageEntity.getType().equals("bot_command"))
-                .findFirst()
-                .map(messageEntity -> update
-                        .getMessage()
-                        .getText()
-                        .substring(messageEntity.getOffset(), messageEntity.getLength()).toLowerCase().split("@")[0]);
+        return Optional.ofNullable(update.getMessage())
+                .map(Message::getEntities)
+                .flatMap(messageEntities -> messageEntities
+                        .stream()
+                        .filter(messageEntity -> messageEntity.getType().equals("bot_command"))
+                        .findFirst()
+                        .map(messageEntity -> retrieveCommand(update, messageEntity)));
+    }
+
+    private String retrieveCommand(Update update, MessageEntity messageEntity) {
+        return update.getMessage()
+                .getText()
+                .substring(messageEntity.getOffset(), messageEntity.getLength())
+                .toLowerCase()
+                .split("@")[0];
     }
 }
