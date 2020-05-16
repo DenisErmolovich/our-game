@@ -1,16 +1,20 @@
 package by.ourgame.bot.service;
 
+import by.ourgame.bot.api.dto.Chat;
 import by.ourgame.bot.api.dto.Message;
 import by.ourgame.bot.api.dto.Update;
+import by.ourgame.bot.api.dto.User;
 import by.ourgame.bot.api.dto.request.SendMessageRequest;
 import by.ourgame.bot.api.method.SendMessageMethod;
 import by.ourgame.bot.button.InlineMurkUp;
 import by.ourgame.bot.model.Game;
 import by.ourgame.bot.repository.GameRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
+@Slf4j
 public class CommandService {
     private SendMessageMethod sendMessageMethod;
     private GameRepository gameRepository;
@@ -61,40 +65,34 @@ public class CommandService {
     }
 
     public void processStartGame(Update update) {
-        var user = update.getMessage().getFrom();
         var chat = update.getMessage().getChat();
-        gameRepository
-                .findByChat_Id(chat.getId())
-                .switchIfEmpty(gameRepository.save(Game.builder()
-                        .creator(user)
-                        .chat(chat)
-                        .canAnswer(false)
-                        .build()))
-                .zipWith(sendMessageMethod.perform(SendMessageRequest.builder()
-                                .chatId(chat.getId())
-                                .text("Нажимай кнопку, если готов ответить!")
-                                .replyMarkup(InlineMurkUp.ANSWER.getReplyMarkup())
-                                .build()),
-                        (game, message) -> game.withChatMessageId(message.getMessageId())
-                )
-                .zipWith(sendMessageMethod.perform(SendMessageRequest.builder()
-                                .chatId(user.getId())
-                                .text("Управляй игрой!")
-                                .replyMarkup(InlineMurkUp.ALLOW.getReplyMarkup())
-                                .build()),
-                        (game, message) -> game.withCreatorMessageId(message.getMessageId())
-                )
-                .flatMap(game -> gameRepository.save(game))
+        gameRepository.findByChat_Id(chat.getId())
+                .doOnNext(this::logThatGameHasBeenFound)
+                .switchIfEmpty(createGame(update))
                 .subscribe();
     }
 
     public void processFinishGame(Update update) {
         var chat = update.getMessage().getChat();
-        gameRepository
-                .findByChat_Id(chat.getId())
+        gameRepository.findByChat_Id(chat.getId())
+                .doOnNext(this::logThatGameHasBeenFound)
                 .flatMap(game -> gameRepository.delete(game))
+                .doOnSuccess(aVoid -> log.info("Game has been deleted"))
                 .then(sendMessage("Игра закончена =(", update))
                 .subscribe();
+    }
+
+    private Mono<Game> createGame(Update update) {
+        var user = update.getMessage().getFrom();
+        var chat = update.getMessage().getChat();
+        return gameRepository.save(Game.builder().creator(user).chat(chat).canAnswer(false).build())
+                .doOnNext(this::logThatGameHasBeenSaved)
+                .zipWith(sendChatMessage(chat),
+                        (game, message) -> game.withChatMessageId(message.getMessageId()))
+                .zipWith(sendCreatorMessage(user),
+                        (game, message) -> game.withCreatorMessageId(message.getMessageId()))
+                .flatMap(game -> gameRepository.save(game))
+                .doOnNext(this::logThatGameHasBeenUpdate);
     }
 
     private Mono<Message> sendMessage(String text, Update update) {
@@ -103,10 +101,62 @@ public class CommandService {
                 .chatId(update.getMessage().getChat().getId())
                 .text(text)
                 .build();
-        return sendMessageMethod.perform(sendMessageRq);
+        return sendMessageMethod.perform(sendMessageRq)
+                .doOnNext(message -> log.info("Message has been sent with text:\n{}", message.getText()));
     }
 
     private void sendMessageWithSubscription(String text, Update update) {
         sendMessage(text, update).subscribe();
+    }
+
+    private Mono<Message> sendChatMessage(Chat chat) {
+        return sendMessageMethod
+                .perform(SendMessageRequest.builder()
+                        .chatId(chat.getId())
+                        .text("Нажимай кнопку, если готов ответить!")
+                        .replyMarkup(InlineMurkUp.ANSWER.getReplyMarkup())
+                        .build())
+                .doOnNext(this::logChatMessageHasBeenSent);
+    }
+
+    private Mono<Message> sendCreatorMessage(User user) {
+        return sendMessageMethod
+                .perform(SendMessageRequest.builder()
+                        .chatId(user.getId())
+                        .text("Управляй игрой!")
+                        .replyMarkup(InlineMurkUp.ALLOW.getReplyMarkup())
+                        .build())
+                .doOnNext(this::logCreatorMessageHasBeenSent);
+    }
+
+    private void logThatGameHasBeenFound(Game game) {
+        log.info("Game has been found: [id: {}, chat: {}, creator: {} {}]",
+                game.getId(),
+                game.getChat().getTitle(),
+                game.getCreator().getFirstName(),
+                game.getCreator().getLastName());
+    }
+
+    private void logThatGameHasBeenSaved(Game game) {
+        log.info("Game has been saved: [id: {}, chat: {}, creator: {} {}]",
+                game.getId(),
+                game.getChat().getTitle(),
+                game.getCreator().getFirstName(),
+                game.getCreator().getLastName());
+    }
+
+    private void logThatGameHasBeenUpdate(Game game) {
+        log.info("Game has been updated: [id: {}, creatorMessageId: {}, chatMessageId: {}]",
+                game.getId(),
+                game.getCreatorMessageId(),
+                game.getChatMessageId());
+    }
+
+    private void logChatMessageHasBeenSent(Message message) {
+        log.info("Chat message for answers has been sent: [chatMessageId: {}]", message.getMessageId());
+    }
+
+    private void logCreatorMessageHasBeenSent(Message message) {
+        log.info("Creator message for control has been sent: [creatorMessageId: {}]", message.getMessageId());
     }
 }

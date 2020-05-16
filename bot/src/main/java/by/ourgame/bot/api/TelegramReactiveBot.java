@@ -6,6 +6,7 @@ import by.ourgame.bot.api.dto.MessageEntity;
 import by.ourgame.bot.api.dto.Update;
 import by.ourgame.bot.api.dto.request.GetUpdatesRequest;
 import by.ourgame.bot.api.method.GetUpdatesMethod;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+@Slf4j
 public abstract class TelegramReactiveBot {
     private BotConfig config;
     private GetUpdatesMethod getUpdatesMethod;
@@ -42,6 +44,7 @@ public abstract class TelegramReactiveBot {
                 .build();
         getUpdatesMethod
                 .perform(getUpdatesRequest)
+                .doOnNext(updates -> log.info("New updates: {}", updates))
                 .repeat()
                 .switchMap(Flux::fromIterable)
                 .subscribe(update -> processUpdate(update, getUpdatesRequest));
