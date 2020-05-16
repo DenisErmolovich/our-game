@@ -10,7 +10,8 @@ public enum InlineMurkUp {
     IS_ANSWER_RIGHT(ReplyMarkup.builder().inlineKeyboard(List.of(List.of(
             InlineButton.YES.getButton(),
             InlineButton.NO.getButton()))).build()),
-    WAIT(ReplyMarkup.builder().inlineKeyboard(List.of(List.of(InlineButton.WAIT .getButton()))).build());
+    WAIT(ReplyMarkup.builder().inlineKeyboard(List.of(List.of(InlineButton.WAIT .getButton()))).build()),
+    RESET(ReplyMarkup.builder().inlineKeyboard(List.of(List.of(InlineButton.RESET .getButton()))).build());
 
     private ReplyMarkup replyMarkup;
 

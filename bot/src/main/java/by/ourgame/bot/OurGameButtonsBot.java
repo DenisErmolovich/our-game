@@ -76,6 +76,7 @@ public class OurGameButtonsBot extends TelegramReactiveBot {
         queryProcessors.put("yes", callbackQueryService::processYesQuery);
         queryProcessors.put("no", callbackQueryService::processNoQuery);
         queryProcessors.put("wait", callbackQueryService::processWaitQuery);
+        queryProcessors.put("reset", callbackQueryService::processResetQuery);
         return queryProcessors;
     }
 }

@@ -7,7 +7,8 @@ public enum InlineButton {
     ALLOW(InlineKeyboardButton.builder().text("Разрешить отвечать").callbackData("allow").build()),
     YES(InlineKeyboardButton.builder().text("Да").callbackData("yes").build()),
     NO(InlineKeyboardButton.builder().text("Нет").callbackData("no").build()),
-    WAIT(InlineKeyboardButton.builder().text("Кнопка антистресс").callbackData("wait").build());
+    WAIT(InlineKeyboardButton.builder().text("Кнопка антистресс").callbackData("wait").build()),
+    RESET(InlineKeyboardButton.builder().text("Сбросить").callbackData("reset").build());
 
     private InlineKeyboardButton button;
 

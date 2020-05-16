@@ -66,6 +66,25 @@ public class CallbackQueryService {
         allowToAnswer(update);
     }
 
+    public void processResetQuery(Update update) {
+        var user = update.getCallbackQuery().getFrom();
+        var message = update.getCallbackQuery().getMessage();
+        var chat = message.getChat();
+        gameRepository.findByCreator_Id(user.getId())
+                .doOnNext(this::logThatGameHasBeenFound)
+                .flatMap(game -> gameRepository.save(game.withCanAnswer(false)))
+                .doOnNext(this::logThatGameHasBeenUpdate)
+                .flatMap(game -> editMessageTextMethod.perform(
+                        EditMessageTextRequest.builder()
+                                .chatId(chat.getId().toString())
+                                .messageId(message.getMessageId())
+                                .text("Управляй игрой!")
+                                .replyMarkup( InlineMurkUp.ALLOW.getReplyMarkup())
+                                .build()))
+                .doFirst(() -> log.info("Reset answer"))
+                .subscribe();
+    }
+
     private void allowToAnswer(Update update) {
         var message = update.getCallbackQuery().getMessage();
         var chat = message.getChat();
@@ -79,7 +98,7 @@ public class CallbackQueryService {
                                 .chatId(chat.getId().toString())
                                 .messageId(message.getMessageId())
                                 .text("Ждём ответа...")
-                                .replyMarkup(InlineMurkUp.WAIT.getReplyMarkup())
+                                .replyMarkup(InlineMurkUp.RESET.getReplyMarkup())
                                 .build()))
                 .doOnNext(messageWithMarkup -> log.info("Waiting for answer"))
                 .subscribe();
