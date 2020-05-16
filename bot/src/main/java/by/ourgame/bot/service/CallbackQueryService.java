@@ -48,7 +48,8 @@ public class CallbackQueryService {
                         .messageId(message.getMessageId())
                         .text("Управляй игрой!")
                         .replyMarkup( InlineMurkUp.ALLOW.getReplyMarkup())
-                        .build());
+                        .build())
+                .subscribe();
     }
 
     public void processNoQuery(Update update) {
