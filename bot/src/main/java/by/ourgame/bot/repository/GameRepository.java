@@ -12,5 +12,7 @@ public interface GameRepository extends ReactiveMongoRepository<Game, String> {
 
     Mono<Game> findByCreator_Id(Long id);
 
+    Mono<Game> findByChat_IdOrCreator_Id(Long chatId, Long creatorId);
+
     Mono<Game> findByChat_IdAndCanAnswer(Long id, boolean canAnswer);
 }

@@ -65,8 +65,9 @@ public class CommandService {
     }
 
     public void processStartGame(Update update) {
+        var user = update.getMessage().getFrom();
         var chat = update.getMessage().getChat();
-        gameRepository.findByChat_Id(chat.getId())
+        gameRepository.findByChat_IdOrCreator_Id(chat.getId(), user.getId())
                 .doOnNext(this::logThatGameHasBeenFound)
                 .switchIfEmpty(createGame(update))
                 .subscribe();
