@@ -12,21 +12,22 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Service
 @Slf4j
 public class CallbackQueryService {
     private GameRepository gameRepository;
     private EditMessageTextMethod editMessageTextMethod;
     private DeleteMessageMethod deleteMessageMethod;
+    private ChatService chatService;
 
     public CallbackQueryService(GameRepository gameRepository,
                                 EditMessageTextMethod editMessageTextMethod,
-                                DeleteMessageMethod deleteMessageMethod) {
+                                DeleteMessageMethod deleteMessageMethod,
+                                ChatService chatService) {
         this.gameRepository = gameRepository;
         this.editMessageTextMethod = editMessageTextMethod;
         this.deleteMessageMethod = deleteMessageMethod;
+        this.chatService = chatService;
     }
 
     public void processAnswerQuery(Update update) {
@@ -99,6 +100,7 @@ public class CallbackQueryService {
         gameRepository.findByCreator_Id(user.getId())
                 .doOnNext(this::logThatGameHasBeenFound)
                 .flatMap(this::deleteGameMessages)
+                .flatMap(chatService::switchOnMessagesInChat)
                 .flatMap(game -> gameRepository.delete(game))
                 .doOnSuccess(aVoid -> log.info("Game has been deleted"))
                 .subscribe();

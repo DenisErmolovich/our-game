@@ -18,11 +18,14 @@ import reactor.core.publisher.Mono;
 public class CommandService {
     private SendMessageMethod sendMessageMethod;
     private GameRepository gameRepository;
+    private ChatService chatService;
 
     public CommandService(SendMessageMethod sendMessageMethod,
-                          GameRepository gameRepository) {
+                          GameRepository gameRepository,
+                          ChatService chatService) {
         this.sendMessageMethod = sendMessageMethod;
         this.gameRepository = gameRepository;
+        this.chatService = chatService;
     }
 
     public void processStartCommand(Update update) {
@@ -68,6 +71,7 @@ public class CommandService {
         gameRepository.findByChat_IdOrCreator_Id(chat.getId(), user.getId())
                 .doOnNext(this::logThatGameHasBeenFound)
                 .switchIfEmpty(createGame(update))
+                .flatMap(chatService::switchOffMessagesInChat)
                 .subscribe();
     }
 

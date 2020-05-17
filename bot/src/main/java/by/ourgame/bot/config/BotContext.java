@@ -2,10 +2,7 @@ package by.ourgame.bot.config;
 
 import by.ourgame.bot.api.client.ReactiveBotClient;
 import by.ourgame.bot.api.config.BotConfig;
-import by.ourgame.bot.api.method.DeleteMessageMethod;
-import by.ourgame.bot.api.method.EditMessageTextMethod;
-import by.ourgame.bot.api.method.GetUpdatesMethod;
-import by.ourgame.bot.api.method.SendMessageMethod;
+import by.ourgame.bot.api.method.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -35,5 +32,10 @@ public class BotContext {
     @Bean
     public DeleteMessageMethod deleteMessageMethod(ReactiveBotClient client) {
         return new DeleteMessageMethod(client);
+    }
+
+    @Bean
+    public SetChatPermissionsMethod setChatPermissionsMethod(ReactiveBotClient client) {
+        return new SetChatPermissionsMethod(client);
     }
 }
