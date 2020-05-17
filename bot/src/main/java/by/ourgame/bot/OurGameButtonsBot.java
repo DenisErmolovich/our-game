@@ -54,7 +54,6 @@ public class OurGameButtonsBot extends TelegramReactiveBot {
     public Map<String, Consumer<Update>> getCustomCommandProcessorMap() {
         var commands = new HashMap<String, Consumer<Update>>();
         commands.put("/startgame", commandService::processStartGame);
-        commands.put("/finishgame", commandService::processFinishGame);
         return commands;
     }
 
@@ -77,6 +76,7 @@ public class OurGameButtonsBot extends TelegramReactiveBot {
         queryProcessors.put("no", callbackQueryService::processNoQuery);
         queryProcessors.put("wait", callbackQueryService::processWaitQuery);
         queryProcessors.put("reset", callbackQueryService::processResetQuery);
+        queryProcessors.put("finish", callbackQueryService::processFinishQuery);
         return queryProcessors;
     }
 }

@@ -85,6 +85,15 @@ public class CallbackQueryService {
                 .subscribe();
     }
 
+    public void processFinishQuery(Update update) {
+        var user = update.getCallbackQuery().getFrom();
+        gameRepository.findByCreator_Id(user.getId())
+                .doOnNext(this::logThatGameHasBeenFound)
+                .flatMap(game -> gameRepository.delete(game))
+                .doOnSuccess(aVoid -> log.info("Game has been deleted"))
+                .subscribe();
+    }
+
     private void allowToAnswer(Update update) {
         var message = update.getCallbackQuery().getMessage();
         var chat = message.getChat();

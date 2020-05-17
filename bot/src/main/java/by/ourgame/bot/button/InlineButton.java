@@ -8,9 +8,10 @@ public enum InlineButton {
     YES(InlineKeyboardButton.builder().text("Да").callbackData("yes").build()),
     NO(InlineKeyboardButton.builder().text("Нет").callbackData("no").build()),
     WAIT(InlineKeyboardButton.builder().text("Кнопка антистресс").callbackData("wait").build()),
-    RESET(InlineKeyboardButton.builder().text("Сбросить").callbackData("reset").build());
+    RESET(InlineKeyboardButton.builder().text("Сбросить").callbackData("reset").build()),
+    FINISH(InlineKeyboardButton.builder().text("Закончить игру").callbackData("finish").build());
 
-    private InlineKeyboardButton button;
+    private final InlineKeyboardButton button;
 
     InlineButton(InlineKeyboardButton button) {
         this.button = button;

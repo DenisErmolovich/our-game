@@ -42,12 +42,10 @@ public class CommandService {
                         "После правильного ответа все начинается с начала (у ведущего кнопка 'да')," +
                         "а в случае не правильного ответа (у ведущего кнопка 'нет') продолжится схватка за" +
                         "право ответить.\n" +
-                        "Кнопка 'анитистесс' просто ничего не делает =)\n" +
-                        "Не забудь завершить игру /finishGame, чтобы дать шанс другому начать её!!!\n" +
+                        "Не забудь завершить игру, чтобы дать шанс другому начать её!!!\n" +
                         "\n" +
                         "Смотри что я могу:\n" +
                         "/startGame - начать новую игру\n" +
-                        "/finishGame - закончить текущую игру\n" +
                         "/start - запустиь бота\n" +
                         "/help - расскажу что умею\n" +
                         "/settings - настройки\n" +
@@ -70,16 +68,6 @@ public class CommandService {
         gameRepository.findByChat_IdOrCreator_Id(chat.getId(), user.getId())
                 .doOnNext(this::logThatGameHasBeenFound)
                 .switchIfEmpty(createGame(update))
-                .subscribe();
-    }
-
-    public void processFinishGame(Update update) {
-        var chat = update.getMessage().getChat();
-        gameRepository.findByChat_Id(chat.getId())
-                .doOnNext(this::logThatGameHasBeenFound)
-                .flatMap(game -> gameRepository.delete(game))
-                .doOnSuccess(aVoid -> log.info("Game has been deleted"))
-                .then(sendMessage("Игра закончена =(", update))
                 .subscribe();
     }
 
