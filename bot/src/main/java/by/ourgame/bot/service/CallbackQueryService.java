@@ -1,23 +1,32 @@
 package by.ourgame.bot.service;
 
 import by.ourgame.bot.api.dto.Update;
+import by.ourgame.bot.api.dto.request.DeleteMessageRequest;
 import by.ourgame.bot.api.dto.request.EditMessageTextRequest;
+import by.ourgame.bot.api.method.DeleteMessageMethod;
 import by.ourgame.bot.api.method.EditMessageTextMethod;
 import by.ourgame.bot.button.InlineMurkUp;
 import by.ourgame.bot.model.Game;
 import by.ourgame.bot.repository.GameRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 @Slf4j
 public class CallbackQueryService {
     private GameRepository gameRepository;
     private EditMessageTextMethod editMessageTextMethod;
+    private DeleteMessageMethod deleteMessageMethod;
 
-    public CallbackQueryService(GameRepository gameRepository, EditMessageTextMethod editMessageTextMethod) {
+    public CallbackQueryService(GameRepository gameRepository,
+                                EditMessageTextMethod editMessageTextMethod,
+                                DeleteMessageMethod deleteMessageMethod) {
         this.gameRepository = gameRepository;
         this.editMessageTextMethod = editMessageTextMethod;
+        this.deleteMessageMethod = deleteMessageMethod;
     }
 
     public void processAnswerQuery(Update update) {
@@ -89,6 +98,7 @@ public class CallbackQueryService {
         var user = update.getCallbackQuery().getFrom();
         gameRepository.findByCreator_Id(user.getId())
                 .doOnNext(this::logThatGameHasBeenFound)
+                .flatMap(this::deleteGameMessages)
                 .flatMap(game -> gameRepository.delete(game))
                 .doOnSuccess(aVoid -> log.info("Game has been deleted"))
                 .subscribe();
@@ -128,5 +138,21 @@ public class CallbackQueryService {
         log.info("Game has been updated: [id: {}, isCanAnswer: {}]",
                 game.getId(),
                 game.isCanAnswer());
+    }
+
+    private Mono<Game> deleteGameMessages(Game game) {
+        var deleteChatMessage = deleteMessageMethod
+                .perform(DeleteMessageRequest.builder()
+                        .chatId(game.getChat().getId().toString())
+                        .messageId(game.getChatMessageId())
+                        .build())
+                .doOnSuccess(aBoolean -> log.info("Chat message has been deleted."));
+        var deleteCreatorMessage = deleteMessageMethod
+                .perform(DeleteMessageRequest.builder()
+                        .chatId(game.getCreator().getId().toString())
+                        .messageId(game.getCreatorMessageId())
+                        .build())
+                .doOnSuccess(aBoolean -> log.info("Creator message has been deleted."));
+        return Mono.zip(deleteChatMessage, deleteCreatorMessage, (result1, result) -> game);
     }
 }
