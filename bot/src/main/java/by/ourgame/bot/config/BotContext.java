@@ -38,4 +38,9 @@ public class BotContext {
     public SetChatPermissionsMethod setChatPermissionsMethod(ReactiveBotClient client) {
         return new SetChatPermissionsMethod(client);
     }
+
+    @Bean
+    public AnswerCallbackQueryMethod answerCallbackQueryMethod(ReactiveBotClient client) {
+        return new AnswerCallbackQueryMethod(client);
+    }
 }

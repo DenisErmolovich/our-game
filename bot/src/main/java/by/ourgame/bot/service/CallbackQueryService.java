@@ -1,8 +1,10 @@
 package by.ourgame.bot.service;
 
 import by.ourgame.bot.api.dto.Update;
+import by.ourgame.bot.api.dto.request.AnswerCallbackQueryRequest;
 import by.ourgame.bot.api.dto.request.DeleteMessageRequest;
 import by.ourgame.bot.api.dto.request.EditMessageTextRequest;
+import by.ourgame.bot.api.method.AnswerCallbackQueryMethod;
 import by.ourgame.bot.api.method.DeleteMessageMethod;
 import by.ourgame.bot.api.method.EditMessageTextMethod;
 import by.ourgame.bot.button.InlineMurkUp;
@@ -19,15 +21,18 @@ public class CallbackQueryService {
     private EditMessageTextMethod editMessageTextMethod;
     private DeleteMessageMethod deleteMessageMethod;
     private ChatService chatService;
+    private AnswerCallbackQueryMethod answerCallbackQueryMethod;
 
     public CallbackQueryService(GameRepository gameRepository,
                                 EditMessageTextMethod editMessageTextMethod,
                                 DeleteMessageMethod deleteMessageMethod,
-                                ChatService chatService) {
+                                ChatService chatService,
+                                AnswerCallbackQueryMethod answerCallbackQueryMethod) {
         this.gameRepository = gameRepository;
         this.editMessageTextMethod = editMessageTextMethod;
         this.deleteMessageMethod = deleteMessageMethod;
         this.chatService = chatService;
+        this.answerCallbackQueryMethod = answerCallbackQueryMethod;
     }
 
     public void processAnswerQuery(Update update) {
@@ -51,6 +56,8 @@ public class CallbackQueryService {
                         user.getFirstName(), user.getLastName()))
                 .doFirst(() -> log.info("{} {} pressed answer button",
                         user.getFirstName(), user.getLastName()))
+                .flatMap(messageWithMarkup -> answerCallbackQuery(update.getCallbackQuery().getId(), "Ответ принят"))
+                .switchIfEmpty(answerCallbackQuery(update.getCallbackQuery().getId(), "Вы не успели =("))
                 .subscribe();
     }
 
@@ -69,6 +76,7 @@ public class CallbackQueryService {
                         .replyMarkup( InlineMurkUp.ALLOW.getReplyMarkup())
                         .build())
                 .doOnNext(messageWithMarkup -> log.info("Right answer =)"))
+                .then(answerCallbackQuery(update.getCallbackQuery().getId(), "Правильный ответ"))
                 .subscribe();
     }
 
@@ -92,6 +100,7 @@ public class CallbackQueryService {
                                 .replyMarkup( InlineMurkUp.ALLOW.getReplyMarkup())
                                 .build()))
                 .doFirst(() -> log.info("Reset answer"))
+                .then(answerCallbackQuery(update.getCallbackQuery().getId(), "Сброс выполнен"))
                 .subscribe();
     }
 
@@ -103,6 +112,7 @@ public class CallbackQueryService {
                 .flatMap(chatService::switchOnMessagesInChat)
                 .flatMap(game -> gameRepository.delete(game))
                 .doOnSuccess(aVoid -> log.info("Game has been deleted"))
+                .then(answerCallbackQuery(update.getCallbackQuery().getId(), "Игра завершена"))
                 .subscribe();
     }
 
@@ -122,6 +132,7 @@ public class CallbackQueryService {
                                 .replyMarkup(InlineMurkUp.RESET.getReplyMarkup())
                                 .build()))
                 .doOnNext(messageWithMarkup -> log.info("Waiting for answer"))
+                .then(answerCallbackQuery(update.getCallbackQuery().getId(), "Ждём ответа от игроков"))
                 .subscribe();
     }
 
@@ -156,5 +167,14 @@ public class CallbackQueryService {
                         .build())
                 .doOnSuccess(aBoolean -> log.info("Creator message has been deleted."));
         return Mono.zip(deleteChatMessage, deleteCreatorMessage, (result1, result) -> game);
+    }
+
+    private Mono<Boolean> answerCallbackQuery(String callbackQueryId, String text) {
+        return answerCallbackQueryMethod.perform(
+                AnswerCallbackQueryRequest.builder()
+                        .callbackQueryId(callbackQueryId)
+                        .text(text)
+                        .build()
+        );
     }
 }
