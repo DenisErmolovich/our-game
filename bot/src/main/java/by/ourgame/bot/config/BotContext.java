@@ -43,4 +43,9 @@ public class BotContext {
     public AnswerCallbackQueryMethod answerCallbackQueryMethod(ReactiveBotClient client) {
         return new AnswerCallbackQueryMethod(client);
     }
+
+    @Bean
+    public EditMessageReplyMarkupMethod editMessageReplyMarkupMethod(ReactiveBotClient client) {
+        return new EditMessageReplyMarkupMethod(client);
+    }
 }

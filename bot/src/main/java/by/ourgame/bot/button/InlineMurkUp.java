@@ -23,7 +23,10 @@ public enum InlineMurkUp {
     RESET(ReplyMarkup.builder().inlineKeyboard(
             List.of(
                     List.of(InlineButton.RESET .getButton()),
-                    List.of(InlineButton.FINISH.getButton()))).build());
+                    List.of(InlineButton.FINISH.getButton()))).build()),
+    EMPTY(ReplyMarkup.builder().inlineKeyboard(
+            List.of()
+    ).build());
 
     private final ReplyMarkup replyMarkup;
 

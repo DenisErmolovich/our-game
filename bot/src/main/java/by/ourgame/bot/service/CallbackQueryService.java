@@ -1,16 +1,16 @@
 package by.ourgame.bot.service;
 
 import by.ourgame.bot.api.dto.Update;
-import by.ourgame.bot.api.dto.request.AnswerCallbackQueryRequest;
-import by.ourgame.bot.api.dto.request.DeleteMessageRequest;
-import by.ourgame.bot.api.dto.request.EditMessageTextRequest;
+import by.ourgame.bot.api.dto.request.*;
 import by.ourgame.bot.api.method.AnswerCallbackQueryMethod;
 import by.ourgame.bot.api.method.DeleteMessageMethod;
+import by.ourgame.bot.api.method.EditMessageReplyMarkupMethod;
 import by.ourgame.bot.api.method.EditMessageTextMethod;
 import by.ourgame.bot.button.InlineMurkUp;
 import by.ourgame.bot.model.Game;
 import by.ourgame.bot.repository.GameRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -22,17 +22,20 @@ public class CallbackQueryService {
     private DeleteMessageMethod deleteMessageMethod;
     private ChatService chatService;
     private AnswerCallbackQueryMethod answerCallbackQueryMethod;
+    private EditMessageReplyMarkupMethod editMessageReplyMarkupMethod;
 
     public CallbackQueryService(GameRepository gameRepository,
                                 EditMessageTextMethod editMessageTextMethod,
                                 DeleteMessageMethod deleteMessageMethod,
                                 ChatService chatService,
-                                AnswerCallbackQueryMethod answerCallbackQueryMethod) {
+                                AnswerCallbackQueryMethod answerCallbackQueryMethod,
+                                EditMessageReplyMarkupMethod editMessageReplyMarkupMethod) {
         this.gameRepository = gameRepository;
         this.editMessageTextMethod = editMessageTextMethod;
         this.deleteMessageMethod = deleteMessageMethod;
         this.chatService = chatService;
         this.answerCallbackQueryMethod = answerCallbackQueryMethod;
+        this.editMessageReplyMarkupMethod = editMessageReplyMarkupMethod;
     }
 
     public void processAnswerQuery(Update update) {
@@ -45,13 +48,21 @@ public class CallbackQueryService {
                 .doOnNext(this::logThatGameHasBeenFound)
                 .flatMap(game -> gameRepository.save(game.withCanAnswer(false)))
                 .doOnNext(this::logThatGameHasBeenUpdate)
-                .flatMap(game -> editMessageTextMethod.perform(
-                        EditMessageTextRequest.builder()
-                                .chatId(game.getCreator().getId().toString())
-                                .messageId(game.getCreatorMessageId())
-                                .text(text)
-                                .replyMarkup(InlineMurkUp.IS_ANSWER_RIGHT.getReplyMarkup())
-                                .build()))
+                .flatMap(game -> Mono.zip(
+                        editMessageTextMethod.perform(
+                                EditMessageTextRequest.builder()
+                                        .chatId(game.getCreator().getId().toString())
+                                        .messageId(game.getCreatorMessageId())
+                                        .text(text)
+                                        .replyMarkup(InlineMurkUp.IS_ANSWER_RIGHT.getReplyMarkup())
+                                        .build()),
+                        editMessageReplyMarkupMethod.perform(
+                                EditMessageReplyMarkupRequest.builder()
+                                        .chatId(game.getChat().getId().toString())
+                                        .messageId(game.getChatMessageId())
+                                        .replyMarkup(InlineMurkUp.EMPTY.getReplyMarkup())
+                                        .build())
+                ))
                 .doOnNext(messageWithMarkup -> log.info("{} {} will try to answer",
                         user.getFirstName(), user.getLastName()))
                 .doFirst(() -> log.info("{} {} pressed answer button",
@@ -92,13 +103,21 @@ public class CallbackQueryService {
                 .doOnNext(this::logThatGameHasBeenFound)
                 .flatMap(game -> gameRepository.save(game.withCanAnswer(false)))
                 .doOnNext(this::logThatGameHasBeenUpdate)
-                .flatMap(game -> editMessageTextMethod.perform(
-                        EditMessageTextRequest.builder()
-                                .chatId(chat.getId().toString())
-                                .messageId(message.getMessageId())
-                                .text("Управляй игрой!")
-                                .replyMarkup( InlineMurkUp.ALLOW.getReplyMarkup())
-                                .build()))
+                .flatMap(game -> Mono.zip(
+                        editMessageTextMethod.perform(
+                                EditMessageTextRequest.builder()
+                                        .chatId(chat.getId().toString())
+                                        .messageId(message.getMessageId())
+                                        .text("Управляй игрой!")
+                                        .replyMarkup( InlineMurkUp.ALLOW.getReplyMarkup())
+                                        .build()),
+                        editMessageReplyMarkupMethod.perform(
+                        EditMessageReplyMarkupRequest.builder()
+                                .chatId(game.getChat().getId().toString())
+                                .messageId(game.getChatMessageId())
+                                .replyMarkup(InlineMurkUp.EMPTY.getReplyMarkup())
+                                .build())
+                ))
                 .doFirst(() -> log.info("Reset answer"))
                 .then(answerCallbackQuery(update.getCallbackQuery().getId(), "Сброс выполнен"))
                 .subscribe();
@@ -124,6 +143,11 @@ public class CallbackQueryService {
                 .doOnNext(this::logThatGameHasBeenFound)
                 .flatMap(game -> gameRepository.save(game.withCanAnswer(true)))
                 .doOnNext(this::logThatGameHasBeenUpdate)
+                .flatMap(game -> editMessageReplyMarkupMethod.perform(EditMessageReplyMarkupRequest.builder()
+                        .chatId(game.getChat().getId().toString())
+                        .messageId(game.getChatMessageId())
+                        .replyMarkup(InlineMurkUp.ANSWER.getReplyMarkup())
+                        .build()))
                 .then(editMessageTextMethod.perform(
                         EditMessageTextRequest.builder()
                                 .chatId(chat.getId().toString())
