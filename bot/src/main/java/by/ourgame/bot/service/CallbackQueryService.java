@@ -1,5 +1,6 @@
 package by.ourgame.bot.service;
 
+import by.ourgame.bot.api.dto.Chat;
 import by.ourgame.bot.api.dto.Update;
 import by.ourgame.bot.api.dto.request.*;
 import by.ourgame.bot.api.method.AnswerCallbackQueryMethod;
@@ -44,10 +45,7 @@ public class CallbackQueryService {
         var chat = message.getChat();
         var textTemplate = "Отвечает %s %s. Ответ правильный?";
         var text = String.format(textTemplate, user.getFirstName(), user.getLastName());
-        gameRepository.findByChat_IdAndCanAnswer(chat.getId(), true)
-                .doOnNext(this::logThatGameHasBeenFound)
-                .flatMap(game -> gameRepository.save(game.withCanAnswer(false)))
-                .doOnNext(this::logThatGameHasBeenUpdate)
+        getGameForAnswer(chat)
                 .flatMap(game -> Mono.zip(
                         editMessageTextMethod.perform(
                                 EditMessageTextRequest.builder()
@@ -161,6 +159,13 @@ public class CallbackQueryService {
     }
 
     public void processWaitQuery(Update update) {
+    }
+
+    private synchronized Mono<Game> getGameForAnswer(Chat chat) {
+        return gameRepository.findByChat_IdAndCanAnswer(chat.getId(), true)
+                .doOnNext(this::logThatGameHasBeenFound)
+                .flatMap(game -> gameRepository.save(game.withCanAnswer(false)))
+                .doOnNext(this::logThatGameHasBeenUpdate);
     }
 
     private void logThatGameHasBeenFound(Game game) {
