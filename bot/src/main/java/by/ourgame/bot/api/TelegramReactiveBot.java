@@ -47,6 +47,7 @@ public abstract class TelegramReactiveBot {
                 .doOnNext(updates -> log.info("New updates: {}", updates))
                 .repeat()
                 .switchMap(Flux::fromIterable)
+                .onErrorContinue((throwable, o) -> log.error("Error occurs: ", throwable))
                 .subscribe(update -> processUpdate(update, getUpdatesRequest));
     }
 
